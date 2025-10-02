@@ -1,0 +1,223 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "GoudyTrajan", sans-serif;
+  letter-spacing: 0.1vw;
+  font-size: 1vw;
+}
+
+@font-face {
+  font-family: "GoudyTrajan";
+  src: url("bin/goudytrajan_bold.otf") format("opentype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  background-color: #1f1f1f;
+  color: white;
+  /* overflow-y: hidden;  */
+}
+
+#container-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.container-left-side {
+  width: 10vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.container-inside {
+  width: 90vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 100vh;
+  overflow: auto;
+}
+
+p {
+  text-align: center;
+  font-size: 1vw;
+}
+
+#logo {
+}
+#strenght {
+}
+#agallity {
+}
+#intelligence {
+}
+#universal {
+}
+#settings {
+}
+
+/* секции вкладок */
+
+.d-none {
+  display: none;
+}
+
+.btn-menu {
+  background-color: inherit;
+  border: none;
+}
+
+#strenght1,
+#agallity1,
+#intelligence1,
+#universal1,
+#settings1 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .7vw .7vw;
+  overflow: hidden;
+  margin-top: auto;
+  width: 40%;
+  margin-bottom: auto;
+  padding: 1.5vh 0 0 2vw;
+}
+
+#strenght-info {
+  display: flex;
+}
+
+.card-npc {
+  /* background-color: rgb(90, 14, 14); */
+  /* border-radius: 1vw 1vw 0 0; */
+  position: relative;
+  cursor: pointer;
+}
+
+.card-npc:hover {
+  transform: scale(1.5);
+  z-index: 999;
+}
+
+.card-npc:hover video {
+  border-radius: 0.2vw;
+}
+
+.left-side-logo-img {
+  width: 5vw;
+  cursor: pointer;
+  /* border: 1px solid green; */
+  border-radius: 50%;
+  transition: 0.2s;
+}
+
+.left-side-logo-img:hover {
+  transform: scale(1.1);
+}
+
+.npc-name {
+  position: absolute;
+  bottom: -1vh;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1vw;
+  text-align: center;
+  text-shadow: 2px 2px 2px black, 4px 4px 6px black, 4px 4px 6px black,
+    4px 4px 6px black, 4px 4px 6px black, 4px 4px 6px black, 6px 6px 12px black;
+  opacity: 0;
+  transition: 0.3s;
+  font-size: 0.5vw;
+  pointer-events: none;
+}
+
+.npc-video {
+  width: 5vw;
+}
+
+.npc-video:hover {
+  box-shadow: 0 0 .5vw .1vw black;
+}
+
+.card-npc:hover .npc-name {
+  opacity: 100;
+  font-size: 0.5vw;
+  bottom: 1.5vh;
+}
+
+#container-strenght-inside,
+#container-agallity-inside,
+#container-intelligence-inside,
+#container-universal-inside,
+#container-settings-inside {
+  display: flex;
+}
+
+#strenght-info,
+#agallity-info,
+#intelligence-info,
+#universal-info,
+#settings-info {
+  padding: 1vw;
+  width: 60vw;
+}
+
+
+.main-container {
+  display: flex;
+  width: 90vw;
+  height: 100vh;
+}
+
+#main1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  height: 100vh;
+  flex-direction: column;
+}
+
+#balance-container {
+margin-bottom: 10vh;
+}
+
+#balance {
+font-size: 3vw;
+}
+
+#balance-per-sec {
+text-align: center;
+margin-top: 0.5vh;
+}
+
+#cases-container {
+display: flex;
+justify-content: center;
+width: 90vw;
+flex-wrap: wrap;
+gap: 2vh 4vw;
+}
+
+.img-case {
+  width: 10vw;
+}
+
+.case {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 1vw;
+  box-shadow: 0 0 1vw .1vw black;
+}
