@@ -1,0 +1,124 @@
+#cases-container {
+  display: flex;
+  justify-content: center;
+  width: 90vw;
+  flex-wrap: wrap;
+  gap: 2vh 1.5vw;
+}
+
+.case {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: .5vw;
+  box-shadow: 0 0 1vw 0.1vw rgb(12, 12, 12);
+  width: 13vw;
+  height: 60vh;
+}
+
+.img-case {
+  width: 8vw;
+}
+
+.name-case {
+    font-size: .6vw;
+    margin-top: 1vh;
+}
+
+.case-hr {
+    width: 100%;
+    margin-top: 1vh;
+    border: .1vw solid rgb(20, 20, 20);
+}
+
+.case-cost-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1vh;
+}
+
+.case-price {
+    font-size: 1.5vw;
+}
+
+.chances-p {
+    text-align: left;
+    align-self: flex-start;
+    margin-left: 1vw;
+    margin-top: 2vh;
+}
+
+.case-chances-container {
+    align-self: flex-start;
+}
+
+.case-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.case-li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.1vw .5vw;
+  width: 13vw;
+}
+
+.case-li span{
+    font-size: .6vw;
+    margin: .5vh 0vw .5vh .5vw;
+}
+
+.case-common {
+color: green;
+}
+
+.case-rare {
+color: rgb(37, 37, 207);
+}
+
+.case-mythic {
+color: blueviolet;
+}
+
+.case-epic {
+color: brown;
+}
+
+.case-legend {
+color: gold;
+}
+
+.case-btn {
+    background-color: inherit;
+    color: white;
+    border: .1vw solid white;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 1vw;
+    border-radius: .3vw;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.case-btn:hover {
+    padding: 1vw 2vw;
+    box-shadow: 0 0 .5vw .1vw white;
+    animation: mirt 0.5s infinite;
+    letter-spacing: .2vw;
+}
+
+@keyframes mirt {
+    0% {
+    box-shadow: 0 0 .5vw .1vw white;
+    }
+    50% {
+    box-shadow: 0 0 .7vw .1vw white;
+    }
+    100% {
+    box-shadow: 0 0 .5vw .1vw white;
+    }
+}

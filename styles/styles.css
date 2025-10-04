@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: "GoudyTrajan";
-  src: url("bin/goudytrajan_bold.otf") format("opentype");
+  src: url("../bin/goudytrajan_bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
 }
@@ -17,7 +17,6 @@
 body {
   background-color: #1f1f1f;
   color: white;
-  /* overflow-y: hidden;  */
 }
 
 #container-main {
@@ -52,7 +51,7 @@ p {
   font-size: 1vw;
 }
 
-#logo {
+/* #logo {
 }
 #strenght {
 }
@@ -63,7 +62,7 @@ p {
 #universal {
 }
 #settings {
-}
+} */
 
 /* секции вкладок */
 
@@ -85,16 +84,12 @@ p {
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  gap: .7vw .7vw;
+  gap: 0.7vw 0.7vw;
   overflow: hidden;
   margin-top: auto;
   width: 40%;
   margin-bottom: auto;
-  padding: 1.5vh 0 0 2vw;
-}
-
-#strenght-info {
-  display: flex;
+  padding: 3vh 0 3vh 2vw;
 }
 
 .card-npc {
@@ -142,10 +137,13 @@ p {
 
 .npc-video {
   width: 5vw;
+  border-radius: 0.2vw;
+  background-color: black;
+  opacity: 30%;
 }
 
 .npc-video:hover {
-  box-shadow: 0 0 .5vw .1vw black;
+  /* box-shadow: 0 0 .5vw .1vw black; */
 }
 
 .card-npc:hover .npc-name {
@@ -162,15 +160,17 @@ p {
   display: flex;
 }
 
-#strenght-info,
+#strength-info,
 #agallity-info,
 #intelligence-info,
 #universal-info,
 #settings-info {
   padding: 1vw;
   width: 60vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-
 
 .main-container {
   display: flex;
@@ -188,36 +188,98 @@ p {
 }
 
 #balance-container {
-margin-bottom: 10vh;
+  margin-bottom: 10vh;
 }
 
 #balance {
-font-size: 3vw;
+  font-size: 3vw;
 }
 
 #balance-per-sec {
-text-align: center;
-margin-top: 0.5vh;
+  text-align: center;
+  margin-top: 0.5vh;
 }
 
-#cases-container {
-display: flex;
-justify-content: center;
-width: 90vw;
-flex-wrap: wrap;
-gap: 2vh 4vw;
+hr {
+  border-top: 0.1vw solid white;
 }
 
-.img-case {
-  width: 10vw;
+.img-npc-info {
+  max-width: 45vw;
+  max-height: 70vh;
 }
-
-.case {
+.cards-container {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.cards-visual {
+  width: 20vw;
+  background-color: grey;
+  height: 1vh;
+  border-radius: 50vw;
+}
+.cards-visual::before {
+  content: "";
+  display: block;
+  width: var(--before-width, 0%);
+  height: 1vh;
+  background-color: var(--before-color, white);
+  border-radius: 50vw;
+}
+.cards-value {
+  margin-left: 2vw;
+  font-size: 1.5vw;
+}
+.cards-img {
+  width: 3vw;
+}
+
+.per-sec-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 40vw;
+}
+.per-sec-npc {
+  font-size: 0.8vw;
+}
+.per-sec-attribute {
+  font-size: 0.8vw;
+}
+.per-sec-all {
+  font-size: 1vw;
+}
+
+.btn-update-lvl-npc {
+  background-color: #1f1f1f;
+  border: none;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
   cursor: pointer;
-  border-radius: 1vw;
-  box-shadow: 0 0 1vw .1vw black;
+  border: .1vw solid white;
+  border-radius: .5vw;
+  margin-top: 2vh;
+  padding: 1vh 3vw;
+  transition: .2s;
+  opacity: 0;
+}
+
+.btn-update-lvl-npc:hover {
+  padding: 1vh 5vw;
+  box-shadow: 0 0 1vw .1vw white;
+  letter-spacing: .5vw;
+}
+
+.btn-update-lvl-npc-container {
+  display: flex;
+  width: 40vw;
+  justify-content: center;
+  align-items: center;
+}
+
+
+#gold {
+  font-size: inherit;
 }
