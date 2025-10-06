@@ -9,6 +9,8 @@ const casesContainer = document.getElementById("cases-container");
 const npcAudio = document.getElementById("npc-audio");
 const meepAudio = document.getElementById("meep-audio");
 const pickAudio = document.getElementById("pick-audio");
+const clickAudio = document.getElementById("click-audio");
+const openCaseAudio = document.getElementById("openCase-audio");
 const btnMain = document.getElementById("btn-main");
 const btnStrenght = document.getElementById("btn-strenght");
 const btnAgallity = document.getElementById("btn-agallity");
@@ -18,9 +20,19 @@ const btnSettings = document.getElementById("btn-settings");
 const goldNode = document.getElementById("gold");
 
 let gold = 1000;
+let goldPerSec = 0;
+let goldPerSecAttributeStrenght = 0;
+let goldPerSecAttributeAgallity = 0;
+let goldPerSecAttributeIntelligence = 0;
+let goldPerSecAttributeUniversal = 0;
 
 setInterval(() => {
+  gold+= goldPerSec
   goldNode.textContent = gold.toFixed(2);
+  document.getElementById('balance-per-sec').innerHTML = `
+  ${goldPerSec.toFixed(2)}<img src="images/gold.png" alt="" style="width: 0.75vw" />
+                в сек
+  `
 }, 1000);
 
 const lvlObj = {
@@ -1394,7 +1406,8 @@ const vkladki = () => {
 for (const casee of cases) {
   casesContainer.innerHTML += `
   <div id="${casee.name}-id" class="case">
-    <img src="${casee.image}" class="img-case">
+    <img src="${casee.image}" class="img-case"">
+    <img src="${casee.image}" class="img-case-open" id="case-img-id-${casee.id}">
     <p class="name-case">${casee.name}</p>
     <hr class="case-hr">
     <div class="case-cost-container">
@@ -1421,6 +1434,8 @@ const caseOpen = (id) => {
   for (const casee of cases) {
     if (casee.id === id) {
       if (Number(casee.price) <= Number(gold)) {
+  clickAudio.currentTime = 0;
+  clickAudio.play();
         gold -= Number(casee.price);
         goldNode.textContent = gold.toFixed(2);
         const cardsDrop =
@@ -1430,7 +1445,6 @@ const caseOpen = (id) => {
         for (let i = 0; i < cardsDrop; i++) {
           cardsAttributeDrop.push((Math.random() * 100).toFixed(2));
         }
-        // console.log(cardsDrop, cardsAttributeDrop);
 
         const dropped = {
           common: 0,
@@ -1536,7 +1550,109 @@ const caseOpen = (id) => {
           }
         }
 
+const modal = document.getElementById('modal');
+const closeBtn = document.getElementById('closeModal');
+const droppedContainer = document.getElementById('dropped-npc-container');
 
+closeBtn.addEventListener('click', () => {
+    modal.classList.remove('show')
+    
+  clickAudio.currentTime = 0;
+  clickAudio.play();
+})
+
+  openCaseAudio.currentTime = 0;
+  openCaseAudio.play();
+  
+  document.getElementById(`case-img-id-${casee.id}`).style.display = 'block'
+  document.getElementById(`case-img-id-${casee.id}`).style.opacity = '100%'
+  document.getElementById(`case-img-id-${casee.id}`).style.position = 'fixed'
+  document.getElementById(`case-img-id-${casee.id}`).style.width = '30vw'
+  document.getElementById(`case-img-id-${casee.id}`).style.height = 'auto'
+  document.getElementById(`case-img-id-${casee.id}`).style.transform = 'translate(-30%, -50%)';
+  document.getElementById(`case-img-id-${casee.id}`).style.top = '50%'
+  document.getElementById(`case-img-id-${casee.id}`).style.left = '50%'
+  document.getElementById('case-1').disabled = true;
+  document.getElementById('case-2').disabled = true;
+  document.getElementById('case-3').disabled = true;
+  document.getElementById('case-4').disabled = true;
+  document.getElementById('case-5').disabled = true;
+  document.getElementById('case-6').disabled = true;
+  setTimeout(() => {
+  document.getElementById(`case-img-id-${casee.id}`).style.transition = '0s'
+  document.getElementById(`case-img-id-${casee.id}`).style.opacity = '0%'
+  document.getElementById(`case-img-id-${casee.id}`).style.position = 'static'
+  document.getElementById(`case-img-id-${casee.id}`).style.width = '0vw'
+  document.getElementById(`case-img-id-${casee.id}`).style.transform = 'translate(50%, 50%)';
+  document.getElementById(`case-img-id-${casee.id}`).style.top = '50%'
+  document.getElementById(`case-img-id-${casee.id}`).style.left = '50%'
+  document.getElementById('case-1').disabled = false;
+  document.getElementById('case-2').disabled = false;
+  document.getElementById('case-3').disabled = false;
+  document.getElementById('case-4').disabled = false;
+  document.getElementById('case-5').disabled = false;
+  document.getElementById('case-6').disabled = false;
+  setTimeout(() => {
+  document.getElementById(`case-img-id-${casee.id}`).style.transition = '6s'
+  }, 100);
+  }, 6000);
+
+  setTimeout(() => {
+    droppedContainer.innerHTML = '';
+    modal.classList.add('show');
+
+    let index = 0;
+
+    const interval = setInterval(() => {
+      if (index >= strEnd.length) {
+        clearInterval(interval);
+        return;
+      }
+
+      const npc = strEnd[index];
+      droppedContainer.innerHTML += `
+        <div class="dropped-npc-item" id="dropped-card-${npc.id}">
+          <img src="images/${npc.img}.png" class="dropped-npc-img">
+          <p class="dropped-npc-name">${npc.name}</p>
+          <hr class="dropped-hr" id="dropped-hr-${npc.id}">
+          <div class='dropped-cards-val-container'>
+            <p class="dropped-cards-val">${npc.cards}</p>
+            <img src="images/cards.png" class="dropped-cards-img">
+          </div>
+        </div>
+      `;
+
+      const card = document.getElementById(`dropped-card-${npc.id}`);
+      const hero = heroes.find(h => h.id === npc.id);
+      if (hero) {
+        const colors = {
+          common: 'green',
+          rare: 'rgb(37, 37, 207)',
+          mythic: 'blueviolet',
+          epic: 'brown',
+          legend: 'gold'
+        };
+        const color = colors[hero.rare] || 'gray';
+        card.style.borderColor = color;
+        document.getElementById(`dropped-hr-${npc.id}`).style.borderColor = color;
+      }
+
+      pickAudio.currentTime = 0;
+      pickAudio.play();
+      index++;
+    }, 1000);
+  }, 6000);
+
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.remove('show')
+    
+  clickAudio.currentTime = 0;
+  clickAudio.play();
+  };
+
+
+});
 
 
 
@@ -1570,21 +1686,26 @@ const openNpc = (id) => {
         .replace(".mp4", "");
       const attribute = npc.primaryAttribute.toLowerCase();
       let attributeTranslate = "";
+      let heroAttribute;
       if (npc.primaryAttribute === "Strength") {
         attributeTranslate = "Сила";
+        heroAttribute = goldPerSecAttributeStrenght
       } else if (npc.primaryAttribute === "agallity") {
         attributeTranslate = "Ловкость";
+        heroAttribute = goldPerSecAttributeAgallity
       } else if (npc.primaryAttribute === "Intelligence") {
         attributeTranslate = "Интеллект";
+        heroAttribute = goldPerSecAttributeIntelligence
       } else if (npc.primaryAttribute === "Universal") {
         attributeTranslate = "Универсал";
+        heroAttribute = goldPerSecAttributeUniversal
       }
       document.getElementById(`${attribute}-info`).innerHTML = `
       <div style="display:flex; flex-direction: column">
         <div class="per-sec-container">
           <div class="per-sec-npc">${npc.name}: 0.05/с</div>
-          <div class="per-sec-attribute">${attributeTranslate}: 1.23/с</div>
-          <div class="per-sec-all">всего: 17.56/с</div>
+          <div class="per-sec-attribute">${attributeTranslate}: ${heroAttribute.toFixed(2)}/с</div>
+          <div class="per-sec-all">всего: ${goldPerSec.toFixed(2)}/с</div>
         </div>
         <div class="info-container">
           <img src="images/${reg}.png" alt="" class="img-npc-info">
@@ -1632,4 +1753,39 @@ progressBars.forEach(pb => {
 
 const updateLvl = (id) => {
   console.log(id);
+  const hero = heroes.find(h => h.id === id);
+  console.log(hero.name)
+  if(hero.cards >= lvlObj[hero.lvl]) {
+    console.log(hero.cards, lvlObj[hero.lvl])
+    hero.cards -= lvlObj[hero.lvl];
+    hero.lvl++
+    let goldHero = 0; 
+    if(hero.rare === 'common') {
+      goldHero += 0.10
+    } else if(hero.rare === 'rare') {
+      goldHero += 0.25
+    } else if(hero.rare === 'mythic') {
+      goldHero += 0.50
+    }  else if(hero.rare === 'epic') {
+      goldHero += 1.00
+    }  else if(hero.rare === 'legend') {
+      goldHero += 2.50
+    }
+    if (hero.primaryAttribute === 'Strength') {
+      goldPerSecAttributeStrenght += goldHero
+    } else if(hero.primaryAttribute === 'agallity') {
+      goldPerSecAttributeAgallity += goldHero
+    } else if(hero.primaryAttribute === 'Intelligence') {
+      goldPerSecAttributeIntelligence += goldHero
+    }  else if(hero.primaryAttribute === 'Universal') {
+      goldPerSecAttributeUniversal += goldHero
+    }
+
+    goldPerSec += goldHero;
+
+    console.log(goldPerSec)
+    openNpc(id)
+  }
 };
+
+

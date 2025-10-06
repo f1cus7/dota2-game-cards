@@ -17,6 +17,7 @@
 body {
   background-color: #1f1f1f;
   color: white;
+  overflow: none;
 }
 
 #container-main {
@@ -43,7 +44,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   height: 100vh;
-  overflow: auto;
+  overflow: hidden;
 }
 
 p {
@@ -176,6 +177,7 @@ p {
   display: flex;
   width: 90vw;
   height: 100vh;
+  overflow: hidden;
 }
 
 #main1 {
@@ -185,6 +187,7 @@ p {
   width: 90vw;
   height: 100vh;
   flex-direction: column;
+  overflow: hidden;
 }
 
 #balance-container {

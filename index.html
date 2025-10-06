@@ -1,87 +1,129 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dota</title>
-    <link rel="stylesheet" href="styles/styles.css">
-    <link rel="stylesheet" href="styles/cases.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/cases.css" />
+  </head>
+  <body>
     <div id="container-main">
-
-        <div class="container-left-side">
-            <div id="logo"><button         class="btn-menu" id="btn-main" onclick="vkladki()">        <img src="images/logo-dota.png" alt="" class="left-side-logo-img" style="border-radius: 0%;"></button></div>
-            <div id="strenght"><button     class="btn-menu" id="btn-strenght" onclick="vkladki()">    <img src="images/strength.png" alt="" class="left-side-logo-img"></button></div>
-            <div id="agallity"><button     class="btn-menu" id="btn-agallity" onclick="vkladki()">    <img src="images/agility.png" alt="" class="left-side-logo-img"></button></div>
-            <div id="intelligence"><button class="btn-menu" id="btn-intelligence" onclick="vkladki()"><img src="images/intelligence.png" alt="" class="left-side-logo-img"></button></div>
-            <div id="universal"><button    class="btn-menu" id="btn-universal" onclick="vkladki()">   <img src="images/universal.png" alt="" class="left-side-logo-img"></button></div>
-            <div id="settings"><button     class="btn-menu" id="btn-settings" onclick="vkladki()">    <img src="images/settings.png" alt=""  class="left-side-logo-img"></button></div>
+      <div class="container-left-side">
+        <div id="logo">
+          <button class="btn-menu" id="btn-main" onclick="vkladki()">
+            <img
+              src="images/logo-dota.png"
+              alt=""
+              class="left-side-logo-img"
+              style="border-radius: 0%"
+            />
+          </button>
         </div>
-
-        <div class="container-inside">
-            <!-- основа -->
-            <div id="main">
-                <div id="main1">
-                    <div id="balance-container">
-                        <div id="balance">
-                            <span id="gold">0</span><img src="images/gold.png" alt="" style="width: 2vw;">
-                        </div>
-                        <hr>
-                        <div id="balance-per-sec">
-                            10.73<img src="images/gold.png" alt="" style="width: 0.75vw;"> в сек
-                        </div>
-                    </div>
-                    <div id="cases-container">
-
-                    </div>
-                </div>
-                <!-- <div class="main-container"></div> -->
-            </div>
-            <!-- сила -->
-            <div id="container-strenght"     class="d-none">
-                <div id="container-strenght-inside">
-                    <div id="strenght1">    </div>
-                    <div id="strength-info">
-                        
-                    </div>
-                </div>
-            </div>
-            <!-- ловкость -->
-            <div id="container-agallity"     class="d-none">
-                <div id="container-agallity-inside">
-                    <div id="agallity1">    </div>
-                    <div id="agallity-info">    </div>
-                </div>
-            </div>
-            <!-- интелект -->
-            <div id="container-intelligence" class="d-none">
-                <div id="container-intelligence-inside">
-                <div id="intelligence1"></div>
-                <div id="intelligence-info"></div>
-                </div>
-            </div>
-            <!-- универсал -->
-            <div id="container-universal"    class="d-none">
-                <div id="container-universal-inside">
-                <div id="universal1">   </div>
-                <div id="universal-info">   </div>
-                </div>
-            </div>
-            <!-- настройки -->
-            <div id="container-settings"     class="d-none">
-                <div id="container-settings-inside">
-                <div id="settings1">    </div>
-                <div id="settings-info">    </div>
-                </div>
-            </div>
+        <div id="strenght">
+          <button class="btn-menu" id="btn-strenght" onclick="vkladki()">
+            <img src="images/strength.png" alt="" class="left-side-logo-img" />
+          </button>
         </div>
+        <div id="agallity">
+          <button class="btn-menu" id="btn-agallity" onclick="vkladki()">
+            <img src="images/agility.png" alt="" class="left-side-logo-img" />
+          </button>
+        </div>
+        <div id="intelligence">
+          <button class="btn-menu" id="btn-intelligence" onclick="vkladki()">
+            <img
+              src="images/intelligence.png"
+              alt=""
+              class="left-side-logo-img"
+            />
+          </button>
+        </div>
+        <div id="universal">
+          <button class="btn-menu" id="btn-universal" onclick="vkladki()">
+            <img src="images/universal.png" alt="" class="left-side-logo-img" />
+          </button>
+        </div>
+        <div id="settings">
+          <button class="btn-menu" id="btn-settings" onclick="vkladki()">
+            <img src="images/settings.png" alt="" class="left-side-logo-img" />
+          </button>
+        </div>
+      </div>
 
+      <div class="container-inside">
+        <!-- основа -->
+        <div id="main">
+          <div id="main1">
+            <div id="balance-container">
+              <div id="balance">
+                <span id="gold">0</span
+                ><img src="images/gold.png" alt="" style="width: 2vw" />
+              </div>
+              <hr />
+              <div id="balance-per-sec">
+                0.00<img src="images/gold.png" alt="" style="width: 0.75vw" />
+                в сек
+              </div>
+            </div>
+            <div id="cases-container"></div>
+          </div>
+          <!-- <div class="main-container"></div> -->
+        </div>
+        <!-- сила -->
+        <div id="container-strenght" class="d-none">
+          <div id="container-strenght-inside">
+            <div id="strenght1"></div>
+            <div id="strength-info"></div>
+          </div>
+        </div>
+        <!-- ловкость -->
+        <div id="container-agallity" class="d-none">
+          <div id="container-agallity-inside">
+            <div id="agallity1"></div>
+            <div id="agallity-info"></div>
+          </div>
+        </div>
+        <!-- интелект -->
+        <div id="container-intelligence" class="d-none">
+          <div id="container-intelligence-inside">
+            <div id="intelligence1"></div>
+            <div id="intelligence-info"></div>
+          </div>
+        </div>
+        <!-- универсал -->
+        <div id="container-universal" class="d-none">
+          <div id="container-universal-inside">
+            <div id="universal1"></div>
+            <div id="universal-info"></div>
+          </div>
+        </div>
+        <!-- настройки -->
+        <div id="container-settings" class="d-none">
+          <div id="container-settings-inside">
+            <div id="settings1"></div>
+            <div id="settings-info"></div>
+          </div>
+        </div>
+      </div>
     </div>
+
+
+    <!-- модалка -->
+    <div id="modal" class="modal">
+      <div class="modal-content">
+        <div id="dropped-npc-container"></div>
+        <button id="closeModal">Закрыть</button>
+      </div>
+    </div>
+
+
     <audio id="npc-audio" src="audio/npc.mp3" preload="auto"></audio>
     <audio id="vkladki-audio" src="audio/vkladki.mp3" preload="auto"></audio>
     <audio id="pick-audio" src="audio/pick.mp3" preload="auto"></audio>
     <audio id="meep-audio" src="audio/meep.mp3" preload="auto"></audio>
+    <audio id="click-audio" src="audio/click.mp3" preload="auto"></audio>
+    <audio id="openCase-audio" src="audio/openCase.mp3" preload="auto"></audio>
     <script src="scripts.js" defer></script>
-</body>
+  </body>
 </html>
