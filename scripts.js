@@ -1543,9 +1543,13 @@ const caseOpen = (id) => {
         console.log(strEnd);
         for (let npc of strEnd) {
           document.getElementById(`npc-video-${npc.id}`).style.opacity = '100%';
+          
           for (let hero of heroes) {
             if (hero.id === npc.id) {
               hero.cards += npc.cards
+              if(hero.cards >= lvlObj[hero.lvl]) {
+          document.getElementById(`npc-video-${npc.id}`).classList.add('canUpdate');
+          }
             }
           }
         }
@@ -1780,12 +1784,12 @@ const updateLvl = (id) => {
     }  else if(hero.primaryAttribute === 'Universal') {
       goldPerSecAttributeUniversal += goldHero
     }
-
+    if(hero.cards < lvlObj[hero.lvl]) {
+    document.getElementById(`npc-video-${hero.id}`).classList.remove('canUpdate');
+  }
     goldPerSec += goldHero;
 
     console.log(goldPerSec)
     openNpc(id)
   }
 };
-
-

@@ -286,3 +286,21 @@ hr {
 #gold {
   font-size: inherit;
 }
+
+
+.canUpdate {
+  transition: .3s;
+  animation: upgrade .5s infinite linear;
+}
+
+@keyframes upgrade {
+  0% {
+  box-shadow: 0 0 .3vw .1vw greenyellow;
+  }
+  50% {
+  box-shadow: 0 0 .1vw .1vw greenyellow;
+  }
+  100% {
+  box-shadow: 0 0 .5vw .1vw greenyellow;
+  }
+}
