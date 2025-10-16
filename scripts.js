@@ -26,13 +26,20 @@ let goldPerSecAttributeAgallity = 0;
 let goldPerSecAttributeIntelligence = 0;
 let goldPerSecAttributeUniversal = 0;
 
+let heroesStrength = [];
+let heroesAgallity = [];
+let heroesIntelligence = [];
+let heroesUniversal = [];
+
 setInterval(() => {
-  gold+= goldPerSec
+  gold += goldPerSec;
   goldNode.textContent = gold.toFixed(2);
-  document.getElementById('balance-per-sec').innerHTML = `
-  ${goldPerSec.toFixed(2)}<img src="images/gold.png" alt="" style="width: 0.75vw" />
+  document.getElementById("balance-per-sec").innerHTML = `
+  ${goldPerSec.toFixed(
+    2
+  )}<img src="images/gold.png" alt="" style="width: 0.75vw" />
                 в сек
-  `
+  `;
 }, 1000);
 
 const lvlObj = {
@@ -1434,8 +1441,8 @@ const caseOpen = (id) => {
   for (const casee of cases) {
     if (casee.id === id) {
       if (Number(casee.price) <= Number(gold)) {
-  clickAudio.currentTime = 0;
-  clickAudio.play();
+        clickAudio.currentTime = 0;
+        clickAudio.play();
         gold -= Number(casee.price);
         goldNode.textContent = gold.toFixed(2);
         const cardsDrop =
@@ -1457,16 +1464,16 @@ const caseOpen = (id) => {
         for (const dropNpc of cardsAttributeDrop) {
           const chance = Number(dropNpc);
           if (chance < casee.chances_common) {
-            console.log("распространённое");
+            // console.log("распространённое");
             dropped.common++;
           } else if (chance < casee.chances_common + casee.chances_rare) {
-            console.log("редкое");
+            // console.log("редкое");
             dropped.rare++;
           } else if (
             chance <
             casee.chances_common + casee.chances_rare + casee.chances_mythic
           ) {
-            console.log("мифическое");
+            // console.log("мифическое");
             dropped.mythic++;
           } else if (
             chance <
@@ -1475,45 +1482,45 @@ const caseOpen = (id) => {
               casee.chances_mythic +
               casee.chances_epic
           ) {
-            console.log("эпическое");
+            // console.log("эпическое");
             dropped.epic++;
           } else {
-            console.log("легендарное");
+            // console.log("легендарное");
             dropped.legend++;
           }
         }
-        console.log(dropped);
+        // console.log(dropped);
 
         const droppedNpc = [];
 
         if (dropped.common != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "common");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          console.log(filteredArray[rand]);
+          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.rare != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "rare");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          console.log(filteredArray[rand]);
+          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.mythic != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "mythic");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          console.log(filteredArray[rand]);
+          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.epic != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "epic");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          console.log(filteredArray[rand]);
+          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.legend != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "legend");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          console.log(filteredArray[rand]);
+          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
 
@@ -1524,97 +1531,169 @@ const caseOpen = (id) => {
 
         const strEnd = droppedNpc.map((name) => {
           const rarity = getRarity(name);
-          let imgHeroDrop = ''
+          let imgHeroDrop = "";
           let idHeroDrop = 0;
           for (const hero of heroes) {
-            if(hero.name === name) {
-              imgHeroDrop = hero.img
-              idHeroDrop = hero.id
+            if (hero.name === name) {
+              imgHeroDrop = hero.img;
+              idHeroDrop = hero.id;
             }
           }
           return {
             name: name,
             cards: dropped[rarity],
-            img: imgHeroDrop.replace("images/npc_dota_hero_", "").replace(".mp4", ""),
-            id: idHeroDrop
+            img: imgHeroDrop
+              .replace("images/npc_dota_hero_", "")
+              .replace(".mp4", ""),
+            id: idHeroDrop,
           };
         });
 
-        console.log(strEnd);
+        // console.log(strEnd);
         for (let npc of strEnd) {
-          document.getElementById(`npc-video-${npc.id}`).style.opacity = '100%';
-          
+          document.getElementById(`npc-video-${npc.id}`).style.opacity = "100%";
+
           for (let hero of heroes) {
             if (hero.id === npc.id) {
-              hero.cards += npc.cards
-              if(hero.cards >= lvlObj[hero.lvl]) {
-          document.getElementById(`npc-video-${npc.id}`).classList.add('canUpdate');
-          }
+              hero.cards += npc.cards;
+              if (hero.cards >= lvlObj[hero.lvl]) {
+                document
+                  .getElementById(`npc-video-${npc.id}`)
+                  .classList.add("canUpdate");
+              }
             }
           }
         }
 
-const modal = document.getElementById('modal');
-const closeBtn = document.getElementById('closeModal');
-const droppedContainer = document.getElementById('dropped-npc-container');
+        for (let heroWithAttribute of heroes) {
+          if (
+            heroWithAttribute.primaryAttribute === "agallity" &&
+            (heroWithAttribute.cards > 0 || heroWithAttribute.lvl > 0)
+          ) {
+            const alreadyExists = heroesAgallity.includes(heroWithAttribute);
+            if (!alreadyExists) {
+              heroesAgallity.push(heroWithAttribute);
+            }
+          } else if (
+            heroWithAttribute.primaryAttribute === "Intelligence" &&
+            (heroWithAttribute.cards > 0 || heroWithAttribute.lvl > 0)
+          ) {
+            const alreadyExists =
+              heroesIntelligence.includes(heroWithAttribute);
+            if (!alreadyExists) {
+              heroesIntelligence.push(heroWithAttribute);
+            }
+          } else if (
+            heroWithAttribute.primaryAttribute === "Universal" &&
+            (heroWithAttribute.cards > 0 || heroWithAttribute.lvl > 0)
+          ) {
+            const alreadyExists = heroesUniversal.includes(heroWithAttribute);
+            if (!alreadyExists) {
+              heroesUniversal.push(heroWithAttribute);
+            }
+          } else if (
+            heroWithAttribute.primaryAttribute === "Strength" &&
+            (heroWithAttribute.cards > 0 || heroWithAttribute.lvl > 0)
+          ) {
+            const alreadyExists = heroesStrength.includes(heroWithAttribute);
+            if (!alreadyExists) {
+              heroesStrength.push(heroWithAttribute);
+            }
+          }
+        }
 
-closeBtn.addEventListener('click', () => {
-    modal.classList.remove('show')
-    
-  clickAudio.currentTime = 0;
-  clickAudio.play();
-})
+        if (heroesStrength.length === 35) {
+          fullStrenght = true;
+          console.log(fullStrenght);
+        }
+        if (heroesAgallity.length === 34) {
+          fullAgallity = true;
+          console.log(fullAgallity);
+        }
+        if (heroesIntelligence.length === 34) {
+          fullIntelligence = true;
+          console.log(fullIntelligence);
+        }
+        if (heroesUniversal.length === 23) {
+          fullUniversal = true;
+          console.log(fullUniversal);
+        }
 
-  openCaseAudio.currentTime = 0;
-  openCaseAudio.play();
-  
-  document.getElementById(`case-img-id-${casee.id}`).style.display = 'block'
-  document.getElementById(`case-img-id-${casee.id}`).style.opacity = '100%'
-  document.getElementById(`case-img-id-${casee.id}`).style.position = 'fixed'
-  document.getElementById(`case-img-id-${casee.id}`).style.width = '30vw'
-  document.getElementById(`case-img-id-${casee.id}`).style.height = 'auto'
-  document.getElementById(`case-img-id-${casee.id}`).style.transform = 'translate(-30%, -50%)';
-  document.getElementById(`case-img-id-${casee.id}`).style.top = '50%'
-  document.getElementById(`case-img-id-${casee.id}`).style.left = '50%'
-  document.getElementById('case-1').disabled = true;
-  document.getElementById('case-2').disabled = true;
-  document.getElementById('case-3').disabled = true;
-  document.getElementById('case-4').disabled = true;
-  document.getElementById('case-5').disabled = true;
-  document.getElementById('case-6').disabled = true;
-  setTimeout(() => {
-  document.getElementById(`case-img-id-${casee.id}`).style.transition = '0s'
-  document.getElementById(`case-img-id-${casee.id}`).style.opacity = '0%'
-  document.getElementById(`case-img-id-${casee.id}`).style.position = 'static'
-  document.getElementById(`case-img-id-${casee.id}`).style.width = '0vw'
-  document.getElementById(`case-img-id-${casee.id}`).style.transform = 'translate(50%, 50%)';
-  document.getElementById(`case-img-id-${casee.id}`).style.top = '50%'
-  document.getElementById(`case-img-id-${casee.id}`).style.left = '50%'
-  document.getElementById('case-1').disabled = false;
-  document.getElementById('case-2').disabled = false;
-  document.getElementById('case-3').disabled = false;
-  document.getElementById('case-4').disabled = false;
-  document.getElementById('case-5').disabled = false;
-  document.getElementById('case-6').disabled = false;
-  setTimeout(() => {
-  document.getElementById(`case-img-id-${casee.id}`).style.transition = '6s'
-  }, 100);
-  }, 6000);
+        const modal = document.getElementById("modal");
+        const closeBtn = document.getElementById("closeModal");
+        const droppedContainer = document.getElementById(
+          "dropped-npc-container"
+        );
 
-  setTimeout(() => {
-    droppedContainer.innerHTML = '';
-    modal.classList.add('show');
+        closeBtn.addEventListener("click", () => {
+          modal.classList.remove("show");
 
-    let index = 0;
+          clickAudio.currentTime = 0;
+          clickAudio.play();
+        });
 
-    const interval = setInterval(() => {
-      if (index >= strEnd.length) {
-        clearInterval(interval);
-        return;
-      }
+        openCaseAudio.currentTime = 0;
+        openCaseAudio.play();
 
-      const npc = strEnd[index];
-      droppedContainer.innerHTML += `
+        document.getElementById(`case-img-id-${casee.id}`).style.display =
+          "block";
+        document.getElementById(`case-img-id-${casee.id}`).style.opacity =
+          "100%";
+        document.getElementById(`case-img-id-${casee.id}`).style.position =
+          "fixed";
+        document.getElementById(`case-img-id-${casee.id}`).style.width = "30vw";
+        document.getElementById(`case-img-id-${casee.id}`).style.height =
+          "auto";
+        document.getElementById(`case-img-id-${casee.id}`).style.transform =
+          "translate(-30%, -50%)";
+        document.getElementById(`case-img-id-${casee.id}`).style.top = "50%";
+        document.getElementById(`case-img-id-${casee.id}`).style.left = "50%";
+        document.getElementById("case-1").disabled = true;
+        document.getElementById("case-2").disabled = true;
+        document.getElementById("case-3").disabled = true;
+        document.getElementById("case-4").disabled = true;
+        document.getElementById("case-5").disabled = true;
+        document.getElementById("case-6").disabled = true;
+        setTimeout(() => {
+          document.getElementById(`case-img-id-${casee.id}`).style.transition =
+            "0s";
+          document.getElementById(`case-img-id-${casee.id}`).style.opacity =
+            "0%";
+          document.getElementById(`case-img-id-${casee.id}`).style.position =
+            "static";
+          document.getElementById(`case-img-id-${casee.id}`).style.width =
+            "0vw";
+          document.getElementById(`case-img-id-${casee.id}`).style.transform =
+            "translate(50%, 50%)";
+          document.getElementById(`case-img-id-${casee.id}`).style.top = "50%";
+          document.getElementById(`case-img-id-${casee.id}`).style.left = "50%";
+          document.getElementById("case-1").disabled = false;
+          document.getElementById("case-2").disabled = false;
+          document.getElementById("case-3").disabled = false;
+          document.getElementById("case-4").disabled = false;
+          document.getElementById("case-5").disabled = false;
+          document.getElementById("case-6").disabled = false;
+          setTimeout(() => {
+            document.getElementById(
+              `case-img-id-${casee.id}`
+            ).style.transition = "6s";
+          }, 100);
+        }, 6000);
+
+        setTimeout(() => {
+          droppedContainer.innerHTML = "";
+          modal.classList.add("show");
+
+          let index = 0;
+
+          const interval = setInterval(() => {
+            if (index >= strEnd.length) {
+              clearInterval(interval);
+              return;
+            }
+
+            const npc = strEnd[index];
+            droppedContainer.innerHTML += `
         <div class="dropped-npc-item" id="dropped-card-${npc.id}">
           <img src="images/${npc.img}.png" class="dropped-npc-img">
           <p class="dropped-npc-name">${npc.name}</p>
@@ -1626,40 +1705,37 @@ closeBtn.addEventListener('click', () => {
         </div>
       `;
 
-      const card = document.getElementById(`dropped-card-${npc.id}`);
-      const hero = heroes.find(h => h.id === npc.id);
-      if (hero) {
-        const colors = {
-          common: 'green',
-          rare: 'rgb(37, 37, 207)',
-          mythic: 'blueviolet',
-          epic: 'brown',
-          legend: 'gold'
-        };
-        const color = colors[hero.rare] || 'gray';
-        card.style.borderColor = color;
-        document.getElementById(`dropped-hr-${npc.id}`).style.borderColor = color;
-      }
+            const card = document.getElementById(`dropped-card-${npc.id}`);
+            const hero = heroes.find((h) => h.id === npc.id);
+            if (hero) {
+              const colors = {
+                common: "green",
+                rare: "rgb(37, 37, 207)",
+                mythic: "blueviolet",
+                epic: "brown",
+                legend: "gold",
+              };
+              const color = colors[hero.rare] || "gray";
+              card.style.borderColor = color;
+              document.getElementById(
+                `dropped-hr-${npc.id}`
+              ).style.borderColor = color;
+            }
 
-      pickAudio.currentTime = 0;
-      pickAudio.play();
-      index++;
-    }, 1000);
-  }, 6000);
+            pickAudio.currentTime = 0;
+            pickAudio.play();
+            index++;
+          }, 1000);
+        }, 6000);
 
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    modal.classList.remove('show')
-    
-  clickAudio.currentTime = 0;
-  clickAudio.play();
-  };
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            modal.classList.remove("show");
 
-
-});
-
-
-
+            clickAudio.currentTime = 0;
+            clickAudio.play();
+          }
+        });
       } else {
         meepAudio.currentTime = 0;
         meepAudio.play();
@@ -1691,24 +1767,43 @@ const openNpc = (id) => {
       const attribute = npc.primaryAttribute.toLowerCase();
       let attributeTranslate = "";
       let heroAttribute;
+      let attributeColor;
+      let perSecHero;
+      if (npc.rare === "common") {
+        perSecHero = 0.1 * npc.lvl;
+      } else if (npc.rare === "rare") {
+        perSecHero = 0.25 * npc.lvl;
+      } else if (npc.rare === "mythic") {
+        perSecHero = 0.5 * npc.lvl;
+      } else if (npc.rare === "epic") {
+        perSecHero = 1.0 * npc.lvl;
+      } else if (npc.rare === "legend") {
+        perSecHero = 2.5 * npc.lvl;
+      }
       if (npc.primaryAttribute === "Strength") {
         attributeTranslate = "Сила";
-        heroAttribute = goldPerSecAttributeStrenght
+        attributeColor = "#fd5d17";
+        heroAttribute = goldPerSecAttributeStrenght;
       } else if (npc.primaryAttribute === "agallity") {
         attributeTranslate = "Ловкость";
-        heroAttribute = goldPerSecAttributeAgallity
+        attributeColor = "#41d754";
+        heroAttribute = goldPerSecAttributeAgallity;
       } else if (npc.primaryAttribute === "Intelligence") {
         attributeTranslate = "Интеллект";
-        heroAttribute = goldPerSecAttributeIntelligence
+        attributeColor = "#0adcf8";
+        heroAttribute = goldPerSecAttributeIntelligence;
       } else if (npc.primaryAttribute === "Universal") {
         attributeTranslate = "Универсал";
-        heroAttribute = goldPerSecAttributeUniversal
+        attributeColor = "#dd00dd";
+        heroAttribute = goldPerSecAttributeUniversal;
       }
       document.getElementById(`${attribute}-info`).innerHTML = `
       <div style="display:flex; flex-direction: column">
-        <div class="per-sec-container">
-          <div class="per-sec-npc">${npc.name}: 0.05/с</div>
-          <div class="per-sec-attribute">${attributeTranslate}: ${heroAttribute.toFixed(2)}/с</div>
+        <div class="per-sec-container" style="color: ${attributeColor}">
+          <div class="per-sec-npc">${npc.name}: ${perSecHero.toFixed(2)}/с</div>
+          <div class="per-sec-attribute">${attributeTranslate}: ${heroAttribute.toFixed(
+        2
+      )}/с</div>
           <div class="per-sec-all">всего: ${goldPerSec.toFixed(2)}/с</div>
         </div>
         <div class="info-container">
@@ -1720,7 +1815,9 @@ const openNpc = (id) => {
           </div>
           <p>уровень: ${npc.lvl}/5</p>
           <div class='btn-update-lvl-npc-container'>
-            <button onclick='updateLvl(${npc.id})' class="btn-update-lvl-npc" disabled>улучшить</button>
+            <button onclick='updateLvl(${
+              npc.id
+            })' class="btn-update-lvl-npc" disabled>улучшить</button>
           </div>
         </div>
       </div>
@@ -1728,68 +1825,127 @@ const openNpc = (id) => {
 
       const progressBars = document.querySelectorAll(".cards-visual");
 
-progressBars.forEach(pb => {
-  const container = pb.closest(".info-container");
-  const cardsValue = container.querySelector(".cards-value").textContent;
-  
-  const [pb1Str, pb2Str] = cardsValue.split("/").map(s => s.trim());
-  const pb1 = Number(pb1Str);
-  const pb2 = Number(pb2Str);
+      progressBars.forEach((pb) => {
+        const container = pb.closest(".info-container");
+        const cardsValue = container.querySelector(".cards-value").textContent;
 
-  let pb3 = 0;
-  if (pb1 > 0 && pb2 > 0) {
-    pb3 = (pb1 / pb2) * 100;
-    pb3 = Math.min(pb3, 100);
-  }
+        const [pb1Str, pb2Str] = cardsValue.split("/").map((s) => s.trim());
+        const pb1 = Number(pb1Str);
+        const pb2 = Number(pb2Str);
 
-  pb.style.setProperty("--before-width", `${pb3}%`);
+        let pb3 = 0;
+        if (pb1 > 0 && pb2 > 0) {
+          pb3 = (pb1 / pb2) * 100;
+          pb3 = Math.min(pb3, 100);
+        }
 
-  if (pb1 >= pb2) {
-    pb.style.setProperty("--before-color", "green");
-    const btn = container.querySelector(".btn-update-lvl-npc");
-    btn.style.opacity = "100%";
-    btn.disabled = false;
-  }
-});
+        pb.style.setProperty("--before-width", `${pb3}%`);
+
+        if (pb1 >= pb2) {
+          pb.style.setProperty("--before-color", attributeColor);
+          const btn = container.querySelector(".btn-update-lvl-npc");
+          btn.style.opacity = "100%";
+          btn.disabled = false;
+        }
+      });
     }
   }
 };
 
 const updateLvl = (id) => {
   console.log(id);
-  const hero = heroes.find(h => h.id === id);
-  console.log(hero.name)
-  if(hero.cards >= lvlObj[hero.lvl]) {
-    console.log(hero.cards, lvlObj[hero.lvl])
+  const hero = heroes.find((h) => h.id === id);
+  console.log(hero.name);
+  if (hero.cards >= lvlObj[hero.lvl]) {
+    console.log(hero.cards, lvlObj[hero.lvl]);
     hero.cards -= lvlObj[hero.lvl];
-    hero.lvl++
-    let goldHero = 0; 
-    if(hero.rare === 'common') {
-      goldHero += 0.10
-    } else if(hero.rare === 'rare') {
-      goldHero += 0.25
-    } else if(hero.rare === 'mythic') {
-      goldHero += 0.50
-    }  else if(hero.rare === 'epic') {
-      goldHero += 1.00
-    }  else if(hero.rare === 'legend') {
-      goldHero += 2.50
+    hero.lvl++;
+    let goldHero = 0;
+    if (hero.rare === "common") {
+      goldHero += 0.1;
+    } else if (hero.rare === "rare") {
+      goldHero += 0.25;
+    } else if (hero.rare === "mythic") {
+      goldHero += 0.5;
+    } else if (hero.rare === "epic") {
+      goldHero += 1.0;
+    } else if (hero.rare === "legend") {
+      goldHero += 2.5;
     }
-    if (hero.primaryAttribute === 'Strength') {
-      goldPerSecAttributeStrenght += goldHero
-    } else if(hero.primaryAttribute === 'agallity') {
-      goldPerSecAttributeAgallity += goldHero
-    } else if(hero.primaryAttribute === 'Intelligence') {
-      goldPerSecAttributeIntelligence += goldHero
-    }  else if(hero.primaryAttribute === 'Universal') {
-      goldPerSecAttributeUniversal += goldHero
+    if (hero.primaryAttribute === "Strength") {
+      goldPerSecAttributeStrenght += goldHero;
+    } else if (hero.primaryAttribute === "agallity") {
+      goldPerSecAttributeAgallity += goldHero;
+    } else if (hero.primaryAttribute === "Intelligence") {
+      goldPerSecAttributeIntelligence += goldHero;
+    } else if (hero.primaryAttribute === "Universal") {
+      goldPerSecAttributeUniversal += goldHero;
     }
-    if(hero.cards < lvlObj[hero.lvl]) {
-    document.getElementById(`npc-video-${hero.id}`).classList.remove('canUpdate');
-  }
+    if (hero.cards < lvlObj[hero.lvl]) {
+      document
+        .getElementById(`npc-video-${hero.id}`)
+        .classList.remove("canUpdate");
+    }
     goldPerSec += goldHero;
 
-    console.log(goldPerSec)
-    openNpc(id)
+    console.log(goldPerSec);
+    openNpc(id);
   }
 };
+
+const arrRune = [
+  "dd",
+  "illusion",
+  "invise",
+  "magic",
+  "speed",
+];
+const arrRuneRus = [
+  "Двойного урона",
+  "Иллюзии",
+  "Невидимости",
+  "Магии",
+  "Скорости",
+];
+const runeBonuses = [
+  "двойного заработка на 20 секунд",
+  "дополнительные карты к любому герою",
+  `украсть под невидимостью ${gold / 50} золота`,
+  "цены сокровищниц снижены на 20 секунд",
+  "увеличенную скорость заработка в 2 раза на 20 секунд",
+];
+
+const runeEvent = () => {
+  // const audio = new Audio(`audio/${rune}.mp3`)
+  // audio.play();
+  const randRune = Math.floor(Math.random() * 5);
+  let rune = arrRune[randRune];
+  containerNode.innerHTML += `
+<div class="rune-container">
+  <div class="rune-flex">
+    <div class="img-rune-container">
+      <img src="images/${rune}.png" class="rune-img">
+    </div>
+    <div class="rune-container-text">
+      <p>Вам выпала руна ${arrRuneRus[randRune]}!</p><br>
+      <p class="rune-bonus">Она дает бонус: ${runeBonuses[randRune]}</p>
+      <div class="rune-buttons">
+        <button class="rune-btn-free">получить</button>
+        <button class="rune-btn-ad">
+        x5 за просмотр рекламы
+          <svg xmlns="http://www.w3.org/2000/svg" width="2vw" height="auto" fill="currentColor" class="bi bi-play-btn" viewBox="0 0 16 16">
+            <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
+            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  `;
+};
+
+// setInterval(() => {
+runeEvent();
+// }, 12000);
