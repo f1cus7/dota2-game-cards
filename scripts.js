@@ -1893,13 +1893,7 @@ const updateLvl = (id) => {
   }
 };
 
-const arrRune = [
-  "dd",
-  "illusion",
-  "invise",
-  "magic",
-  "speed",
-];
+const arrRune = ["dd", "illusion", "invise", "magic", "speed"];
 const arrRuneRus = [
   "Двойного урона",
   "Иллюзии",
@@ -1908,7 +1902,7 @@ const arrRuneRus = [
   "Скорости",
 ];
 const runeBonuses = [
-  "двойного заработка на 20 секунд",
+  "бонус заработка за 30 секунд",
   "дополнительные карты к любому герою",
   `украсть под невидимостью ${gold / 50} золота`,
   "цены сокровищниц снижены на 20 секунд",
@@ -1930,10 +1924,10 @@ const runeEvent = () => {
       <p>Вам выпала руна ${arrRuneRus[randRune]}!</p><br>
       <p class="rune-bonus">Она дает бонус: ${runeBonuses[randRune]}</p>
       <div class="rune-buttons">
-        <button class="rune-btn-free">получить</button>
-        <button class="rune-btn-ad">
+        <button class="rune-btn-free" onclick="btnRune('${rune}', 'noAd')">получить</button>
+        <button class="rune-btn-ad" onclick="btnRune('${rune}', 'ad')">
         x5 за просмотр рекламы
-          <svg xmlns="http://www.w3.org/2000/svg" width="2vw" height="auto" fill="currentColor" class="bi bi-play-btn" viewBox="0 0 16 16">
+          <svg xmlns="http://www.w3.org/2000/svg" width="2vw" height="100%" fill="currentColor" class="bi bi-play-btn" viewBox="0 0 16 16">
             <path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
             <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
           </svg>
@@ -1947,5 +1941,94 @@ const runeEvent = () => {
 };
 
 // setInterval(() => {
-runeEvent();
+// runeEvent();
 // }, 12000);
+
+const btnRune = (rune, ad) => {
+  switch (rune) {
+    case "dd":
+      // document.querySelector('.rune-container').innerHTML = '';
+      gold = goldPerSec * 30;
+      break;
+    case "illusion":
+      // document.querySelector('.rune-container').innerHTML = '';
+      let randomHero;
+
+      do {
+        randomHero = heroes[Math.floor(Math.random() * heroes.length)];
+      } while (!(randomHero.lvl < 5 && randomHero.cards < 85));
+
+      const randCards = Math.floor(Math.random() * 3) + 1;
+      randomHero.cards += randCards;
+      const randomHeroImg = randomHero.img
+        .replace(".mp4", ".png")
+        .replace("npc_dota_hero_", "");
+      const el = document.createElement("div");
+      el.className = "dropped-npc-item-rune";
+      el.innerHTML = `
+  <img src="${randomHeroImg}" class="dropped-npc-img">
+  <p class="dropped-npc-name">${randomHero.name}</p>
+  <hr class="dropped-hr">
+  <div class='dropped-cards-val-container'>
+    <p class="dropped-cards-val">${randomHero.cards}</p>
+    <img src="images/cards.png" class="dropped-cards-img">
+  </div>
+`;
+
+      containerNode.appendChild(el);
+
+      el.style.transition = "opacity 0.5s ease";
+
+      setTimeout(() => {
+        el.style.opacity = "0";
+
+        setTimeout(() => {
+          el.remove();
+        }, 500);
+      }, 1000);
+      break;
+    case "invise":
+      // document.querySelector('.rune-container').innerHTML = '';
+      gold += gold / 50;
+      break;
+    case "magic":
+      // document.querySelector('.rune-container').innerHTML = '';
+
+      const originalPrices = cases.map((c) => c.price);
+
+      for (let casee of cases) {
+        casee.price -= casee.price / 10;
+      }
+      const allCases = document.querySelectorAll(".case-price");
+      for (let i = 0; i < allCases.length; i++) {
+        allCases[i].textContent = cases[i].price.toFixed(0);
+      }
+
+      setTimeout(() => {
+        for (let i = 0; i < cases.length; i++) {
+          cases[i].price = originalPrices[i];
+          allCases[i].textContent = cases[i].price.toFixed(0);
+        }
+      }, 20000);
+      break;
+    case "speed":
+      // document.querySelector('.rune-container').innerHTML = '';
+      const intervalId = setInterval(() => {
+        gold += goldPerSec;
+        goldNode.textContent = gold.toFixed(2);
+        document.getElementById("balance-per-sec").innerHTML = `
+    ${goldPerSec.toFixed(2)}
+    <img src="images/gold.png" alt="" style="width: 0.75vw" />
+    в сек
+  `;
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(intervalId);
+      }, 20000);
+      break;
+
+    default:
+      break;
+  }
+};

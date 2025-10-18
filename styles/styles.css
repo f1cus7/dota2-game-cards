@@ -407,3 +407,36 @@ hr {
 .rune-btn-ad {
   font-size: .6vw !important;
 }
+
+.rune-btn-free:active {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 1);
+  font-size: 1.5vw;
+}
+
+.rune-btn-ad:active {
+  background: rgba(127, 255, 53, 0.5);
+  border: 1px solid rgba(102, 255, 0, 0.659);
+  font-size: .5vw !important;
+}
+
+.dropped-npc-item-rune {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: .1vw solid black;
+  transition: .5s;
+  border-radius: 1vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid #ffffffa8;
+  box-shadow: 0 1vw 1vw rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 2vw;
+  display: flex;
+  align-items: center;
+  transition: .2s;
+}
