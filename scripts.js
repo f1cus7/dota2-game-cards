@@ -1464,16 +1464,13 @@ const caseOpen = (id) => {
         for (const dropNpc of cardsAttributeDrop) {
           const chance = Number(dropNpc);
           if (chance < casee.chances_common) {
-            // console.log("распространённое");
             dropped.common++;
           } else if (chance < casee.chances_common + casee.chances_rare) {
-            // console.log("редкое");
             dropped.rare++;
           } else if (
             chance <
             casee.chances_common + casee.chances_rare + casee.chances_mythic
           ) {
-            // console.log("мифическое");
             dropped.mythic++;
           } else if (
             chance <
@@ -1482,45 +1479,37 @@ const caseOpen = (id) => {
               casee.chances_mythic +
               casee.chances_epic
           ) {
-            // console.log("эпическое");
             dropped.epic++;
           } else {
-            // console.log("легендарное");
             dropped.legend++;
           }
         }
-        // console.log(dropped);
 
         const droppedNpc = [];
 
         if (dropped.common != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "common");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.rare != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "rare");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.mythic != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "mythic");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.epic != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "epic");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
         if (dropped.legend != 0) {
           const filteredArray = heroes.filter((hero) => hero.rare === "legend");
           const rand = Math.floor(Math.random() * filteredArray.length);
-          // console.log(filteredArray[rand]);
           droppedNpc.push(filteredArray[rand].name);
         }
 
@@ -1549,7 +1538,6 @@ const caseOpen = (id) => {
           };
         });
 
-        // console.log(strEnd);
         for (let npc of strEnd) {
           document.getElementById(`npc-video-${npc.id}`).style.opacity = "100%";
 
@@ -1604,19 +1592,15 @@ const caseOpen = (id) => {
 
         if (heroesStrength.length === 35) {
           fullStrenght = true;
-          console.log(fullStrenght);
         }
         if (heroesAgallity.length === 34) {
           fullAgallity = true;
-          console.log(fullAgallity);
         }
         if (heroesIntelligence.length === 34) {
           fullIntelligence = true;
-          console.log(fullIntelligence);
         }
         if (heroesUniversal.length === 23) {
           fullUniversal = true;
-          console.log(fullUniversal);
         }
 
         const modal = document.getElementById("modal");
@@ -1758,9 +1742,6 @@ const openNpc = (id) => {
 
   for (const npc of heroes) {
     if (npc.id === id) {
-      console.log("Имя:", npc.name);
-      console.log("Атрибут:", npc.primaryAttribute);
-      console.log("Картинка:", npc.img);
       const reg = npc.img
         .replace("images/npc_dota_hero_", "")
         .replace(".mp4", "");
@@ -1853,11 +1834,8 @@ const openNpc = (id) => {
 };
 
 const updateLvl = (id) => {
-  console.log(id);
   const hero = heroes.find((h) => h.id === id);
-  console.log(hero.name);
   if (hero.cards >= lvlObj[hero.lvl]) {
-    console.log(hero.cards, lvlObj[hero.lvl]);
     hero.cards -= lvlObj[hero.lvl];
     hero.lvl++;
     let goldHero = 0;
@@ -1888,7 +1866,6 @@ const updateLvl = (id) => {
     }
     goldPerSec += goldHero;
 
-    console.log(goldPerSec);
     openNpc(id);
   }
 };
@@ -1904,17 +1881,19 @@ const arrRuneRus = [
 const runeBonuses = [
   "бонус заработка за 30 секунд",
   "дополнительные карты к любому герою",
-  `украсть под невидимостью ${gold / 50} золота`,
+  `украсть под невидимостью часть золота`,
   "цены сокровищниц снижены на 20 секунд",
   "увеличенную скорость заработка в 2 раза на 20 секунд",
 ];
 
 const runeEvent = () => {
-  // const audio = new Audio(`audio/${rune}.mp3`)
-  // audio.play();
   const randRune = Math.floor(Math.random() * 5);
   let rune = arrRune[randRune];
-  containerNode.innerHTML += `
+  const audio = new Audio(`audio/${rune}.mp3`);
+  audio.play();
+  const el = document.createElement("div");
+  el.className = "rune-container";
+  el.innerHTML += `
 <div class="rune-container">
   <div class="rune-flex">
     <div class="img-rune-container">
@@ -1936,96 +1915,321 @@ const runeEvent = () => {
     </div>
   </div>
 </div>
-
   `;
+
+  containerNode.appendChild(el);
 };
 
-// setInterval(() => {
-// runeEvent();
-// }, 12000);
+const trees = ["tree1", "tree2", "tree3"];
+
+const mkEvent = () => {
+  const audio = new Audio(`audio/mk.mp3`);
+  audio.volume = 0.3;
+  audio.play();
+  const shuffledTrees = trees.sort(() => Math.random() - 0.5);
+  const el = document.createElement("div");
+  const randTreeTrue = Math.floor(Math.random() * 3) + 1;
+  el.className = "rune-container";
+  el.innerHTML += `
+<div class="rune-container">
+  <div class="rune-flex">
+    <div class="img-rune-container">
+      ${shuffledTrees
+        .map(
+          (tree) =>
+            `<button class="mk-img-btn" onclick="tree('${tree}', '${randTreeTrue}')"><img src="images/${tree}.png" class="mk-img"></button>`
+        )
+        .join("")}
+    </div>
+    <div class="rune-container-text">
+      <p style="font-size: 1.5vw">Манки кинг стал одним из деревьев, угадаешь каким?</p><br>
+    </div>
+  </div>
+</div>
+  `;
+
+  containerNode.appendChild(el);
+};
+
+const tree = (tree, randTreeTrue) => {
+  let clickedTree = Number(tree.replace("tree", ""));
+  randTreeTrue = Number(randTreeTrue);
+  if (clickedTree === randTreeTrue) {
+    const audio = new Audio('audio/mkTrue.mp3');
+    audio.volume = .3;
+    audio.play()
+    document.querySelector(".rune-container").remove();
+    const elmk = document.createElement("div");
+    elmk.className = "dropped-npc-item-rune";
+    elmk.innerHTML = `<p class="rune-dd-p">+${(gold / 25).toFixed(2)}</p>`;
+    gold += gold / 25;
+    containerNode.appendChild(elmk);
+    elmk.style.transition = "opacity 0.5s ease";
+    setTimeout(() => {
+      elmk.style.opacity = "0";
+      setTimeout(() => {
+        elmk.remove();
+      }, 500);
+    }, 1000);
+  } else {
+    document.querySelector(".rune-container").remove();
+    const audio = new Audio('audio/mkFalse.mp3');
+    audio.volume = .3;
+    audio.play()
+  }
+};
+
+setInterval(() => {
+  if (!document.querySelector('.rune-container')) {
+    const rand = Math.floor(Math.random() * 6);
+    if (rand <= 4) {
+      runeEvent();
+    } else {
+      mkEvent();
+    }
+  }
+}, 5000);
+
 
 const btnRune = (rune, ad) => {
   switch (rune) {
     case "dd":
-      // document.querySelector('.rune-container').innerHTML = '';
-      gold = goldPerSec * 30;
+      if (ad === "noAd") {
+        document.querySelector(".rune-container").remove();
+        gold += goldPerSec * 30;
+        const eldd = document.createElement("div");
+        eldd.className = "dropped-npc-item-rune";
+        eldd.innerHTML = `<p class="rune-dd-p">+${goldPerSec * 30}</p>`;
+        containerNode.appendChild(eldd);
+        eldd.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          eldd.style.opacity = "0";
+          setTimeout(() => {
+            eldd.remove();
+          }, 500);
+        }, 1000);
+      } else {
+        document.querySelector(".rune-container").remove();
+        gold += goldPerSec * 150;
+        const eldd = document.createElement("div");
+        eldd.className = "dropped-npc-item-rune";
+        eldd.innerHTML = `<p class="rune-dd-p">+${goldPerSec * 150}</p>`;
+        containerNode.appendChild(eldd);
+        eldd.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          eldd.style.opacity = "0";
+          setTimeout(() => {
+            eldd.remove();
+          }, 500);
+        }, 1000);
+      }
+
       break;
     case "illusion":
-      // document.querySelector('.rune-container').innerHTML = '';
-      let randomHero;
-
-      do {
-        randomHero = heroes[Math.floor(Math.random() * heroes.length)];
-      } while (!(randomHero.lvl < 5 && randomHero.cards < 85));
-
-      const randCards = Math.floor(Math.random() * 3) + 1;
-      randomHero.cards += randCards;
-      const randomHeroImg = randomHero.img
-        .replace(".mp4", ".png")
-        .replace("npc_dota_hero_", "");
-      const el = document.createElement("div");
-      el.className = "dropped-npc-item-rune";
-      el.innerHTML = `
-  <img src="${randomHeroImg}" class="dropped-npc-img">
-  <p class="dropped-npc-name">${randomHero.name}</p>
-  <hr class="dropped-hr">
-  <div class='dropped-cards-val-container'>
-    <p class="dropped-cards-val">${randomHero.cards}</p>
-    <img src="images/cards.png" class="dropped-cards-img">
-  </div>
-`;
-
-      containerNode.appendChild(el);
-
-      el.style.transition = "opacity 0.5s ease";
-
-      setTimeout(() => {
-        el.style.opacity = "0";
-
+      if (ad === "noAd") {
+        document.querySelector(".rune-container").remove();
+        let randomHero;
+        do {
+          randomHero = heroes[Math.floor(Math.random() * heroes.length)];
+        } while (!(randomHero.lvl < 5 && randomHero.cards < 98));
+        const randCards = Math.floor(Math.random() * 3) + 1;
+        randomHero.cards += randCards;
+        const randomHeroImg = randomHero.img
+          .replace(".mp4", ".png")
+          .replace("npc_dota_hero_", "");
+        const el = document.createElement("div");
+        el.className = "dropped-npc-item-rune";
+        el.innerHTML = `
+        <img src="${randomHeroImg}" class="dropped-npc-img">
+        <p class="dropped-npc-name">${randomHero.name}</p>
+        <hr class="dropped-hr">
+        <div class='dropped-cards-val-container'>
+        <p class="dropped-cards-val">${randCards}</p>
+        <img src="images/cards.png" class="dropped-cards-img">
+        </div>
+        `;
+        containerNode.appendChild(el);
+        el.style.transition = "opacity 0.5s ease";
         setTimeout(() => {
-          el.remove();
-        }, 500);
-      }, 1000);
+          el.style.opacity = "0";
+          setTimeout(() => {
+            el.remove();
+          }, 500);
+        }, 1000);
+      } else {
+        document.querySelector(".rune-container").remove();
+        let randomHero;
+        do {
+          randomHero = heroes[Math.floor(Math.random() * heroes.length)];
+        } while (!(randomHero.lvl < 5 && randomHero.cards < 86));
+        const randCards = Math.floor(Math.random() * 15) + 1;
+        randomHero.cards += randCards;
+        const randomHeroImg = randomHero.img
+          .replace(".mp4", ".png")
+          .replace("npc_dota_hero_", "");
+        const el = document.createElement("div");
+        el.className = "dropped-npc-item-rune";
+        el.innerHTML = `
+        <img src="${randomHeroImg}" class="dropped-npc-img">
+        <p class="dropped-npc-name">${randomHero.name}</p>
+        <hr class="dropped-hr">
+        <div class='dropped-cards-val-container'>
+        <p class="dropped-cards-val">${randCards}</p>
+        <img src="images/cards.png" class="dropped-cards-img">
+        </div>
+        `;
+        containerNode.appendChild(el);
+        el.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          el.style.opacity = "0";
+          setTimeout(() => {
+            el.remove();
+          }, 500);
+        }, 1000);
+      }
+
       break;
     case "invise":
-      // document.querySelector('.rune-container').innerHTML = '';
-      gold += gold / 50;
+      if (ad === "noAd") {
+        document.querySelector(".rune-container").remove();
+        const elin = document.createElement("div");
+        elin.className = "dropped-npc-item-rune";
+        elin.innerHTML = `<p class="rune-dd-p">+${(gold / 50).toFixed(2)}</p>`;
+        gold += gold / 50;
+        containerNode.appendChild(elin);
+        elin.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          elin.style.opacity = "0";
+          setTimeout(() => {
+            elin.remove();
+          }, 500);
+        }, 1000);
+      } else {
+        document.querySelector(".rune-container").remove();
+        const elin = document.createElement("div");
+        elin.className = "dropped-npc-item-rune";
+        elin.innerHTML = `<p class="rune-dd-p">+${(gold / 10).toFixed(2)}</p>`;
+        gold += gold / 10;
+        containerNode.appendChild(elin);
+        elin.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          elin.style.opacity = "0";
+          setTimeout(() => {
+            elin.remove();
+          }, 500);
+        }, 1000);
+      }
+
       break;
     case "magic":
-      // document.querySelector('.rune-container').innerHTML = '';
-
-      const originalPrices = cases.map((c) => c.price);
-
-      for (let casee of cases) {
-        casee.price -= casee.price / 10;
-      }
-      const allCases = document.querySelectorAll(".case-price");
-      for (let i = 0; i < allCases.length; i++) {
-        allCases[i].textContent = cases[i].price.toFixed(0);
-      }
-
-      setTimeout(() => {
-        for (let i = 0; i < cases.length; i++) {
-          cases[i].price = originalPrices[i];
+      if (ad === "noAd") {
+        document.querySelector(".rune-container").remove();
+        const originalPrices = cases.map((c) => c.price);
+        for (let casee of cases) {
+          casee.price -= casee.price / 10;
+        }
+        const allCases = document.querySelectorAll(".case-price");
+        for (let i = 0; i < allCases.length; i++) {
           allCases[i].textContent = cases[i].price.toFixed(0);
         }
-      }, 20000);
+        const elma = document.createElement("div");
+        elma.className = "dropped-npc-item-rune";
+        elma.innerHTML = `<p class="rune-ma-p">-10% стоимость сокровищниц на 20 секунд!</p>`;
+        containerNode.appendChild(elma);
+        elma.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          elma.style.opacity = "0";
+          setTimeout(() => {
+            elma.remove();
+          }, 500);
+        }, 1500);
+        setTimeout(() => {
+          for (let i = 0; i < cases.length; i++) {
+            cases[i].price = originalPrices[i];
+            allCases[i].textContent = cases[i].price.toFixed(0);
+          }
+        }, 20000);
+      } else {
+        document.querySelector(".rune-container").remove();
+        const originalPrices = cases.map((c) => c.price);
+        for (let casee of cases) {
+          casee.price -= casee.price / 10;
+        }
+        const allCases = document.querySelectorAll(".case-price");
+        for (let i = 0; i < allCases.length; i++) {
+          allCases[i].textContent = cases[i].price.toFixed(0);
+        }
+        const elma = document.createElement("div");
+        elma.className = "dropped-npc-item-rune";
+        elma.innerHTML = `<p class="rune-ma-p">-10% стоимость сокровищниц на 100 секунд!</p>`;
+        containerNode.appendChild(elma);
+        elma.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          elma.style.opacity = "0";
+          setTimeout(() => {
+            elma.remove();
+          }, 500);
+        }, 1500);
+        setTimeout(() => {
+          for (let i = 0; i < cases.length; i++) {
+            cases[i].price = originalPrices[i];
+            allCases[i].textContent = cases[i].price.toFixed(0);
+          }
+        }, 100000);
+      }
+
       break;
     case "speed":
-      // document.querySelector('.rune-container').innerHTML = '';
-      const intervalId = setInterval(() => {
-        gold += goldPerSec;
-        goldNode.textContent = gold.toFixed(2);
-        document.getElementById("balance-per-sec").innerHTML = `
-    ${goldPerSec.toFixed(2)}
-    <img src="images/gold.png" alt="" style="width: 0.75vw" />
-    в сек
-  `;
-      }, 1000);
+      if (ad === "noAd") {
+        document.querySelector(".rune-container").remove();
+        const intervalId = setInterval(() => {
+          gold += goldPerSec;
+          goldNode.textContent = gold.toFixed(2);
+          document.getElementById("balance-per-sec").innerHTML = `
+          ${goldPerSec.toFixed(
+            2
+          )}<img src="images/gold.png" alt="" style="width: 0.75vw" />в сек`;
+        }, 1000);
+        const elsp = document.createElement("div");
+        elsp.className = "dropped-npc-item-rune";
+        elsp.innerHTML = `<p class="rune-dd-p">двойной заработок на 20 секунд</p>`;
+        containerNode.appendChild(elsp);
+        elsp.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          elsp.style.opacity = "0";
+          setTimeout(() => {
+            elsp.remove();
+          }, 500);
+        }, 1000);
+        setTimeout(() => {
+          clearInterval(intervalId);
+        }, 20000);
+      } else {
+        document.querySelector(".rune-container").remove();
+        const intervalId = setInterval(() => {
+          gold += goldPerSec;
+          goldNode.textContent = gold.toFixed(2);
+          document.getElementById("balance-per-sec").innerHTML = `
+          ${goldPerSec.toFixed(
+            2
+          )}<img src="images/gold.png" alt="" style="width: 0.75vw" />в сек`;
+        }, 1000);
+        const elsp = document.createElement("div");
+        elsp.className = "dropped-npc-item-rune";
+        elsp.innerHTML = `<p class="rune-dd-p">двойной заработок на 100 секунд</p>`;
+        containerNode.appendChild(elsp);
+        elsp.style.transition = "opacity 0.5s ease";
+        setTimeout(() => {
+          elsp.style.opacity = "0";
+          setTimeout(() => {
+            elsp.remove();
+          }, 500);
+        }, 1000);
+        setTimeout(() => {
+          clearInterval(intervalId);
+        }, 100000);
+      }
 
-      setTimeout(() => {
-        clearInterval(intervalId);
-      }, 20000);
       break;
 
     default:

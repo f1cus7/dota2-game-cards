@@ -1,0 +1,189 @@
+.rune-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.rune-flex {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 60vw;
+  height: 80vh;
+  flex-direction: column;
+  border-radius: 1vw;
+  background: #1f1f1f1a;
+  backdrop-filter: blur(.7vw) saturate(180%);
+  -webkit-backdrop-filter: blur(.7vw) saturate(180%);
+  border: 1px solid #000000a8;
+  border-radius: 20px;
+  box-shadow: 0 1vw 1vw rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.img-rune-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rune-img {
+  max-height: 40vh;
+  position: relative;
+  animation: runeAnim 1s infinite linear;
+}
+
+@keyframes runeAnim {
+  0% {
+    transform: scale(1.0);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
+
+
+
+.rune-container-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rune-container-text p {
+  font-size: 2vw;
+}
+
+.rune-buttons button {
+  background-color: #00000000;
+  background: #ffffff1a;
+  backdrop-filter: blur(.7vw) saturate(180%);
+  -webkit-backdrop-filter: blur(.7vw) saturate(180%);
+  border: 1px solid #ffffffa8;
+  border-radius: 11vw;
+  box-shadow: 0 1vw 1vw rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 2vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 7vh;
+  width: 15vw;
+  margin: 2vh 2vw;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.rune-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rune-bonus {
+  font-size: 1vw !important;
+}
+
+.rune-btn-free:hover {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
+.rune-btn-ad:hover {
+  background: rgba(127, 255, 53, 0.5);
+  border: 1px solid rgba(102, 255, 0, 0.659);
+}
+
+.rune-btn-ad {
+  font-size: .6vw !important;
+}
+
+.rune-btn-free:active {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 1);
+  font-size: 1.5vw;
+}
+
+.rune-btn-ad:active {
+  background: rgba(127, 255, 53, 0.5);
+  border: 1px solid rgba(102, 255, 0, 0.659);
+  font-size: .5vw !important;
+}
+
+.dropped-npc-item-rune {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: .1vw solid black;
+  transition: .5s;
+  border-radius: 1vw;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  backdrop-filter: blur(.7vw) saturate(180%);
+  -webkit-backdrop-filter: blur(.7vw) saturate(180%);
+  transform: translate(-50%, -50%);
+  border: 1px solid #ffffffa8;
+  box-shadow: 0 1vw 1vw rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-size: 2vw;
+  display: flex;
+  align-items: center;
+  transition: .2s;
+}
+
+.rune-dd-p {
+  border-radius: 1vw;
+  box-shadow: 0 0vw 1vw rgb(255, 255, 255);
+  color: #fff;
+  font-size: 2vw;
+  display: flex;
+  align-items: center;
+  transition: .2s;
+  padding: 5vh 5vw;
+  font-size: 3vw;
+  backdrop-filter: blur(.7vw) saturate(180%);
+  -webkit-backdrop-filter: blur(.7vw) saturate(180%);
+}
+
+.rune-ma-p {
+  border-radius: 1vw;
+  box-shadow: 0 0vw 1vw brown;
+  color: #fff;
+  font-size: 2vw;
+  display: flex;
+  align-items: center;
+  transition: .2s;
+  padding: 5vh 5vw;
+  font-size: 2vw;
+  backdrop-filter: blur(.7vw) saturate(180%);
+  -webkit-backdrop-filter: blur(.7vw) saturate(180%);
+  color: brown;
+}
+
+.mk-img-btn {
+  border: none;
+  background-color: #00000000;
+  margin: 1vh 2vw;
+}
+
+.mk-img {
+  max-height: 40vh;
+  position: relative;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.mk-img:hover {
+  transform: scale(1.1);
+}
+
+.mk-img:active {
+  transform: scale(0.9);
+}
