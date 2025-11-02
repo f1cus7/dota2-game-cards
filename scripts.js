@@ -18,7 +18,6 @@ const btnIntelligence = document.getElementById("btn-intelligence");
 const btnUniversal = document.getElementById("btn-universal");
 const btnSettings = document.getElementById("btn-settings");
 const goldNode = document.getElementById("gold");
-
 let gold = 1000;
 let goldPerSec = 0;
 let goldPerSecAttributeStrenght = 0;
@@ -1881,7 +1880,7 @@ const arrRuneRus = [
 const runeBonuses = [
   "бонус заработка за 30 секунд",
   "дополнительные карты к любому герою",
-  `украсть под невидимостью часть золота`,
+  `украсть под невидимостью 2% текущего золота`,
   "цены сокровищниц снижены на 20 секунд",
   "увеличенную скорость заработка в 2 раза на 20 секунд",
 ];
@@ -1955,9 +1954,9 @@ const tree = (tree, randTreeTrue) => {
   let clickedTree = Number(tree.replace("tree", ""));
   randTreeTrue = Number(randTreeTrue);
   if (clickedTree === randTreeTrue) {
-    const audio = new Audio('audio/mkTrue.mp3');
-    audio.volume = .3;
-    audio.play()
+    const audio = new Audio("audio/mkTrue.mp3");
+    audio.volume = 0.3;
+    audio.play();
     document.querySelector(".rune-container").remove();
     const elmk = document.createElement("div");
     elmk.className = "dropped-npc-item-rune";
@@ -1973,14 +1972,17 @@ const tree = (tree, randTreeTrue) => {
     }, 1000);
   } else {
     document.querySelector(".rune-container").remove();
-    const audio = new Audio('audio/mkFalse.mp3');
-    audio.volume = .3;
-    audio.play()
+    const audio = new Audio("audio/mkFalse.mp3");
+    audio.volume = 0.3;
+    audio.play();
   }
 };
 
 setInterval(() => {
-  if (!document.querySelector('.rune-container')) {
+  if (
+    !document.querySelector(".rune-container") &&
+    !document.querySelector(".story-container")
+  ) {
     const rand = Math.floor(Math.random() * 6);
     if (rand <= 4) {
       runeEvent();
@@ -1988,8 +1990,7 @@ setInterval(() => {
       mkEvent();
     }
   }
-}, 5000);
-
+}, 120000);
 
 const btnRune = (rune, ad) => {
   switch (rune) {
@@ -2236,3 +2237,88 @@ const btnRune = (rune, ad) => {
       break;
   }
 };
+
+function showStory(message, btn1Text, btn1Action, btn2Text, btn2Action) {
+  const prev = document.querySelector(".story-container");
+  if (prev) prev.remove();
+
+  const el = document.createElement("div");
+  el.className = "story-container";
+  el.innerHTML = `
+    <div class="story-container-flex">
+      <div class="story-container-image">
+        <img src="images/big_golov.png" class="story-img">
+      </div>
+      <div class="story-container-text">
+        <div class="story-container-message"></div>
+        <div class="story-container-answers">
+          <button class="story-btn" disabled>${btn1Text}</button>
+          <button class="story-btn" disabled>${btn2Text}</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  containerNode.appendChild(el);
+
+  const container = el.querySelector(".story-container-message");
+  let i = 0;
+  function typeLetter() {
+    if (i < message.length) {
+      container.textContent += message[i];
+      i++;
+      setTimeout(typeLetter, 50);
+    }
+  }
+  typeLetter();
+
+  setTimeout(() => {
+    const buttons = el.querySelectorAll(".story-btn");
+    buttons[0].disabled = false;
+    buttons[1].disabled = false;
+    buttons[0].classList.add("story-btn-active");
+    buttons[1].classList.add("story-btn-active");
+
+    buttons[0].onclick = btn1Action;
+    buttons[1].onclick = btn2Action;
+  }, (message.length + 2) * 50);
+}
+
+
+
+setTimeout(() => {
+  showStory(
+  "эй, не похож ты на нейтрала, ты за какие силы воюешь?",
+  "а тебе что?", () => showStory(
+    "ты как разговариваешь, я самый уважаемый музыкант на бамбуковой палочке в нашем лягушатнике, извинись!",
+    "не буду, уходи.", () => showStory(
+      "знай, если я не дойду, моя лягушачья кровь будет на твоих руках, прощай.",
+      "далее", () => {document.querySelector(".story-container").remove()},
+      "далее", () => {document.querySelector(".story-container").remove()}
+    ),
+    "извини.", () => showStory(
+      "странный ты, ладно, меня только что чуть не притоптал гигантский... я даже не знаю кто это был, но был он с размером с два наших лягушатника! Я так устал, пока убегал от него, что у меня нет сил дойти до моих родных болот, не мог бы ты помочь мне? 12 танго бы меня очень выручили :(",
+      "Ты же у торговца берешь? цены те же, 3 танго по 90? Это тогда получается... 360 золота! Если тебе так нужно — бери.", () => showStory(
+        "СПАСИБО ТЕБЕ БОЛЬШОЕ! надеюсь, мы еще встретимся! Удачи, и еще раз спасибо!",
+        "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
+      ),
+      "Извини, но я тебя даже не знаю", () => showStory(
+        "но.. я так надеялся на твою помощь... прощай.",
+        "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
+      )
+    )
+  ),
+  "да не за какие... вроде бы..", () => showStory(
+    "странный ты, ладно, меня только что чуть не притоптал гигантский... я даже не знаю кто это был, но был он с размером с два наших лягушатника! Я так устал, пока убегал от него, что у меня нет сил дойти до моих родных болот, не мог бы ты помочь мне? 12 танго бы меня очень выручили :(",
+    "Ты же у торговца берешь? цены те же, 3 танго по 90? Это тогда получается... 360 золота! Если тебе так нужно — бери.", () => showStory(
+      "СПАСИБО ТЕБЕ БОЛЬШОЕ! надеюсь, мы еще встретимся! Удачи, и еще раз спасибо!",
+      "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
+    ),
+    "Извини, но я тебя даже не знаю", () => showStory(
+      "но.. я так надеялся на твою помощь... прощай.",
+      "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
+    )
+  )
+);
+
+}, 300);
