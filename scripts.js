@@ -57,7 +57,7 @@ const heroes = [
     primaryAttribute: "Strength",
     rare: "legend",
     id: 1,
-    cards: 0,
+    cards: 110,
     lvl: 0,
   },
   {
@@ -2238,7 +2238,14 @@ const btnRune = (rune, ad) => {
   }
 };
 
-function showStory(message, btn1Text, btn1Action, btn2Text, btn2Action) {
+function showStory(
+  message,
+  btn1Text,
+  btn1Action,
+  btn2Text = null,
+  btn2Action = null,
+  img
+) {
   const prev = document.querySelector(".story-container");
   if (prev) prev.remove();
 
@@ -2247,14 +2254,11 @@ function showStory(message, btn1Text, btn1Action, btn2Text, btn2Action) {
   el.innerHTML = `
     <div class="story-container-flex">
       <div class="story-container-image">
-        <img src="images/big_golov.png" class="story-img">
+        <img src="images/${img}.png" class="story-img">
       </div>
       <div class="story-container-text">
         <div class="story-container-message"></div>
-        <div class="story-container-answers">
-          <button class="story-btn" disabled>${btn1Text}</button>
-          <button class="story-btn" disabled>${btn2Text}</button>
-        </div>
+        <div class="story-container-answers"></div>
       </div>
     </div>
   `;
@@ -2262,6 +2266,9 @@ function showStory(message, btn1Text, btn1Action, btn2Text, btn2Action) {
   containerNode.appendChild(el);
 
   const container = el.querySelector(".story-container-message");
+  const answers = el.querySelector(".story-container-answers");
+
+  // Печатаем текст
   let i = 0;
   function typeLetter() {
     if (i < message.length) {
@@ -2272,53 +2279,357 @@ function showStory(message, btn1Text, btn1Action, btn2Text, btn2Action) {
   }
   typeLetter();
 
+  // После печати добавляем кнопки
   setTimeout(() => {
-    const buttons = el.querySelectorAll(".story-btn");
-    buttons[0].disabled = false;
-    buttons[1].disabled = false;
-    buttons[0].classList.add("story-btn-active");
-    buttons[1].classList.add("story-btn-active");
+    const btn1 = document.createElement("button");
+    btn1.className = "story-btn story-btn-active";
+    btn1.textContent = btn1Text;
+    btn1.onclick = btn1Action;
+    answers.appendChild(btn1);
 
-    buttons[0].onclick = btn1Action;
-    buttons[1].onclick = btn2Action;
-  }, (message.length + 2) * 50);
+    // если передана вторая кнопка — создаем её
+    if (btn2Text && btn2Action) {
+      const btn2 = document.createElement("button");
+      btn2.className = "story-btn story-btn-active";
+      btn2.textContent = btn2Text;
+      btn2.onclick = btn2Action;
+      answers.appendChild(btn2);
+    }
+  }, (message.length + 10) * 50);
 }
 
+let currEnd = 1;
+
+
+function endAndRemove(code) {
+  currEnd = code;
+  const el = document.querySelector(".story-container");
+  if (el) el.remove();
+}
+
+// setTimeout(() => {
+//   const helpStory = () => showStory(
+//     "странный ты, ладно, меня только что чуть не притоптал гигантский... я даже не знаю кто это был, но был он с размером с два наших лягушатника! Я так устал, пока убегал от него, что у меня нет сил дойти до моих родных болот, не мог бы ты помочь мне? 12 танго бы меня очень выручили :(",
+//     "Ты же у торговца берешь? цены те же, 3 танго по 90? Это тогда получается... 360 золота! Если тебе так нужно — бери.",
+//     () => showStory(
+//       "СПАСИБО ТЕБЕ БОЛЬШОЕ! надеюсь, мы еще встретимся! Удачи, и еще раз спасибо!",
+//       "далее",
+//       () => {endAndRemove(3); gold -= 360},
+//       null,
+//       null,
+//       "big_golov"
+//     ),
+//     "Извини, но я тебя даже не знаю",
+//     () => showStory(
+//       "но.. я так надеялся на твою помощь... прощай.",
+//       "далее",
+//       () => endAndRemove(2),
+//       null,
+//       null,
+//       "big_golov"
+//     ),
+//     "big_golov"
+//   );
+
+//   showStory(
+//     "эй, не похож ты на нейтрала, ты за какие силы воюешь?",
+//     "а тебе что?",
+//     () => showStory(
+//       "ты как разговариваешь, я самый уважаемый музыкант на бамбуковой палочке в нашем лягушатнике, извинись!",
+//       "не буду, уходи.",
+//       () => showStory(
+//         "знай, если я не дойду, моя лягушачья кровь будет на твоих руках, прощай.",
+//         "далее",
+//         () => endAndRemove(1),
+//         null,
+//         null,
+//         "big_golov"
+//       ),
+//       "извини.",
+//       helpStory,
+//       "big_golov"
+//     ),
+//     "да не за какие... вроде бы..",
+//     helpStory,
+//     "big_golov"
+//   );
+// }, 300);
+
+
+
+// setTimeout(() => {
+//   for (let sheet of document.styleSheets) {
+//     for (let rule of sheet.cssRules) {
+//       if (rule.selectorText === ".story-container") {
+//         rule.style.backgroundImage = `
+//           linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+//           url("../images/landscape2.jpg")
+//         `;
+//       }
+//     }
+//   }
+
+//   const nextStory = () => showStory(
+//           'меня прислал мой папа, отблагодарить тебя за его спасение, правда он переел, и сейчас только спит и квакает..',
+//           'а чего он клареткой то не запивал?',
+//           () => showStory(
+//             'он на диете.',
+//             'хорошо, я понял',
+//             () => nextnextStory(),
+//             'ты не боишься тут один ходить?',
+//             () => showStory(
+//               'да я тут прыгал, еще до 7-го 38-го, когда еще засуха была, так что за меня не переживай.',
+//               'квакого-квакого?',
+//               () => showStory(
+//                 'седьмого, тридцать восьмого!\nты слушай жабрами, оно лучше.',
+//                 'очень постараюсь',
+//                 () => nextnextStory(),
+//                 null,
+//                 null,
+//                 'golov'
+//               ),
+//               null,
+//               null,
+//               'golov'
+//             ),
+//             'golov'
+//           ),
+//           'да не за что, я люблю лягушек, а у него еще крутая дудка была',
+//           () => showStory(
+//             'да, дудка и в правду хорошая, ему её вручил дикокрыл, когда мой папа купил тому фласку',
+//             'хорошо, я понял',
+//             () => nextnextStory(),
+//             'ты не боишься тут один ходить?',
+//             () => showStory(
+//               'да я тут прыгал, еще до 7-го 38-го, когда еще засуха была, так что за меня не переживай.',
+//               'квакого-квакого?',
+//               () => showStory(
+//                 'седьмого, тридцать восьмого!\nты слушай жабрами, оно лучше.',
+//                 'очень постараюсь',
+//                 () => nextnextStory(),
+//                 null,
+//                 null,
+//                 'golov'
+//               ),
+//               null,
+//               null,
+//               'golov'
+//             ),
+//             'golov'
+//           ),
+//           'golov'
+//   )
+
+//   const nextnextStory = () => showStory(
+//     'ладно, я поквакал',
+//     'давай, пока!',
+//     () => endAndRemove(3),
+//     'поква!',
+//     () => endAndRemove(3),
+//     'golov'
+//   )
+
+//   switch (currEnd) {
+//     case 1:
+//       showStory(
+//         "папа.. папа! где мой папа?!",
+//         "какой папа?",
+//         () =>
+//           showStory(
+//             "мой, мой папа! Ты его не видел?",
+//             "нет, не видел",
+//             () => endAndRemove(1),
+//             "с палочкой такой, музыкант?",
+//             () =>
+//               showStory(
+//                 "да! ты видел его?!",
+//                 "да, он встретил кого-то большого, просил у меня золота на танго, но у меня не оказалось",
+//                 () =>
+//                   showStory(
+//                     "о нет... папа.. где же он теперь, я же не успею осмотреть всю долину",
+//                     "все равно попробуй его поискать",
+//                     () => endAndRemove(1),
+//                     "может я смогу тебе помочь? дать золота на ботинки?",
+//                     () =>
+//                       showStory(
+//                         "спасибо! надеюсь это сможет мне помочь.",
+//                         "удачи в поисках!",
+//                         () => {
+//                           endAndRemove(2); gold -= 500},
+//                         null,
+//                         null,
+//                         "golov"
+//                       ),
+//                     "golov_sad"
+//                   ),
+//                 null,
+//                 null,
+//                 "golov_sad"
+//               ),
+//             "golov_sad"
+//           ),
+//         null,
+//         null,
+//         "golov_sad"
+//       );
+
+//       break;
+//     case 2:
+//       showStory(
+//         "папа.. папа! где мой папа?!",
+//         "ты сын музыканта?",
+//         () => showStory(
+//           'да! мой папа должен был вернуться домой еще несколько часов назад, но.. но.. он не пришел! Теперь я его ищу. Не знаешь где он сейчас?',
+//           'нет, не знаю',
+//           () => showStory(
+//             'надеюсь он где-то рядом, пока..',
+//             'пока',
+//             () => endAndRemove(2),
+//             null,
+//             null,
+//             'golov_sad'
+//           ),
+//           'он может быть в округе или у лавки, просил у меня денег на танго. за ним гнался кто-то большой.',
+//           () => showStory(
+//             "о нет... папа.. где же он теперь, я же не успею осмотреть всю долину",
+//                     "все равно попробуй его поискать",
+//                     () => endAndRemove(1),
+//                     "может я смогу тебе помочь? дать золота на ботинки?",
+//                     () => showStory(
+//                         "спасибо! надеюсь это сможет мне помочь.",
+//                         "удачи в поисках!",
+//                         () => {
+//                           endAndRemove(2); gold -= 500},
+//                         null,
+//                         null,
+//                         "golov"
+//                       ),
+
+//                     "golov_sad"
+//           ),
+//           'golov_sad'
+//         ),
+//         null,
+//         null,
+//         'golov_sad');
+//       break;
+//     case 3:
+//       showStory('привет! это ты помог моему папе?',
+//         'да, я',
+//         () => nextStory(),
+//         'нет, не я',
+//         () => showStory(
+//           'да прям не ты, мне про тебя всё всё описали, вылитый ты:\nпервое: крип-переросток\nвторое: богатый\nтретье: добрый\nчетвертое: не лягух',
+//           'ладно, раскусил',
+//           () => nextStory(),
+//           'если квакну, я буду похож на лягуха?',
+//           () => showStory(
+//             'ахах, смешной, так все же, это ты?',
+//             'да, я',
+//             () => nextStory(),
+//             null,
+//             null,
+//             'golov'
+//           ),
+//           'golov'
+//         ),
+//         'golov'
+//       )
+//       break;
+//     default:
+//       break;
+//   }
+// }, 300);
 
 
 setTimeout(() => {
-  showStory(
-  "эй, не похож ты на нейтрала, ты за какие силы воюешь?",
-  "а тебе что?", () => showStory(
-    "ты как разговариваешь, я самый уважаемый музыкант на бамбуковой палочке в нашем лягушатнике, извинись!",
-    "не буду, уходи.", () => showStory(
-      "знай, если я не дойду, моя лягушачья кровь будет на твоих руках, прощай.",
-      "далее", () => {document.querySelector(".story-container").remove()},
-      "далее", () => {document.querySelector(".story-container").remove()}
-    ),
-    "извини.", () => showStory(
-      "странный ты, ладно, меня только что чуть не притоптал гигантский... я даже не знаю кто это был, но был он с размером с два наших лягушатника! Я так устал, пока убегал от него, что у меня нет сил дойти до моих родных болот, не мог бы ты помочь мне? 12 танго бы меня очень выручили :(",
-      "Ты же у торговца берешь? цены те же, 3 танго по 90? Это тогда получается... 360 золота! Если тебе так нужно — бери.", () => showStory(
-        "СПАСИБО ТЕБЕ БОЛЬШОЕ! надеюсь, мы еще встретимся! Удачи, и еще раз спасибо!",
-        "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
-      ),
-      "Извини, но я тебя даже не знаю", () => showStory(
-        "но.. я так надеялся на твою помощь... прощай.",
-        "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
-      )
-    )
-  ),
-  "да не за какие... вроде бы..", () => showStory(
-    "странный ты, ладно, меня только что чуть не притоптал гигантский... я даже не знаю кто это был, но был он с размером с два наших лягушатника! Я так устал, пока убегал от него, что у меня нет сил дойти до моих родных болот, не мог бы ты помочь мне? 12 танго бы меня очень выручили :(",
-    "Ты же у торговца берешь? цены те же, 3 танго по 90? Это тогда получается... 360 золота! Если тебе так нужно — бери.", () => showStory(
-      "СПАСИБО ТЕБЕ БОЛЬШОЕ! надеюсь, мы еще встретимся! Удачи, и еще раз спасибо!",
-      "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
-    ),
-    "Извини, но я тебя даже не знаю", () => showStory(
-      "но.. я так надеялся на твою помощь... прощай.",
-      "далее", () => {document.querySelector(".story-container").remove()}, "далее", () => {document.querySelector(".story-container").remove()}
-    )
-  )
-);
+  for (let sheet of document.styleSheets) {
+    for (let rule of sheet.cssRules) {
+      if (rule.selectorText === ".story-container") {
+        rule.style.backgroundImage = `
+          linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+          url("../images/landscape3.jpg")
+        `;
+      }
+    }
+  }
 
+
+
+  switch (currEnd) {
+    case 1:
+      showStory(
+        `*громкие шаги*`,
+        'далее',
+        () => showStory(
+          '*рык*',
+          'далее',
+          () => showStory(
+            'ты..., это ты хотел украсть мой аегис?!',
+            'нет',
+            () => showStory(
+              'так это ты...',
+              'далее',
+              () => showStory(
+                'вы теряете сознание, просыпаясь осознаете, что все что у вас осталось — это только 1000 золота.',
+                '#%$#&$',
+                () => {
+                  endAndRemove(1);
+                  gold = 1000;
+                  for (let hero of heroes) {
+                    hero.lvl = 0;
+                    hero.cards = 0;
+                  }
+                },
+                null,
+                null,
+                'roshan'
+              ),
+              null,
+              null,
+              'roshan'
+            ),
+            'да',
+            () => showStory(
+              'так это ты...',
+              'далее',
+              () => showStory(
+                'вы теряете сознание, просыпаясь осознаете, что все что у вас осталось — это только 1000 золота.',
+                '#%$#&$',
+                () => {
+                  endAndRemove(1);
+                  gold = 1000;
+                  for (let hero of heroes) {
+                    hero.lvl = 0;
+                    hero.cards = 0;
+                  }
+                },
+                null,
+                null,
+                'roshan'
+              ),
+              null,
+              null,
+              'roshan'
+            ),
+            'roshan'
+          ),
+          null,
+          null,
+          'roshan'
+        ),
+        null,
+        null,
+        'roshan'
+)
+      break;
+    case 2:
+
+      break;
+    case 3:
+    showStory()
+      break;
+    default:
+      break;
+  }
 }, 300);
