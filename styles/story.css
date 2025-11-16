@@ -58,7 +58,7 @@
   word-wrap: break-word;
   word-break: normal;
   flex-wrap: wrap;
-  text-align: justify;
+  text-align: left;
   padding: 0 2vw;
   font-size: 1.5vw;
 }
