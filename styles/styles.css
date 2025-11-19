@@ -5,7 +5,19 @@
   font-family: "GoudyTrajan", sans-serif;
   letter-spacing: 0.1vw;
   font-size: 1vw;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
 }
+
+img {
+  -webkit-user-drag: none;
+}
+
 
 @font-face {
   font-family: "GoudyTrajan";
@@ -308,3 +320,49 @@ hr {
   }
 }
 
+.lb-container {
+width: auto;
+border: .1vw solid white;
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+border-radius: .5vw;
+}
+
+.lb-head {
+  padding: 4vh 1vw;
+  font-size: 1.5vw;
+}
+
+.lb-user {
+  margin-bottom: 1.5vh;
+}
+
+.lb-place {
+  width: 2vw;
+  display: inline-block;
+}
+
+.lb-name {
+  min-width: 9vw;
+  display: inline-block;
+}
+
+.lb-score {
+  position: relative;
+  padding-right: 1.2vw;
+}
+
+.lb-score::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1vw;
+  height: 1vw;
+  background-image: url('../images/gold.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+}

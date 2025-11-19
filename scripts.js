@@ -11,12 +11,14 @@ const meepAudio = document.getElementById("meep-audio");
 const pickAudio = document.getElementById("pick-audio");
 const clickAudio = document.getElementById("click-audio");
 const openCaseAudio = document.getElementById("openCase-audio");
+const machineAudio = document.getElementById("machine-audio");
 const btnMain = document.getElementById("btn-main");
 const btnStrenght = document.getElementById("btn-strenght");
 const btnAgallity = document.getElementById("btn-agallity");
 const btnIntelligence = document.getElementById("btn-intelligence");
 const btnUniversal = document.getElementById("btn-universal");
 const btnSettings = document.getElementById("btn-settings");
+const settingsInfo = document.getElementById("settings-info");
 const goldNode = document.getElementById("gold");
 let gold = 1000;
 let goldPerSec = 0;
@@ -29,6 +31,11 @@ let heroesStrength = [];
 let heroesAgallity = [];
 let heroesIntelligence = [];
 let heroesUniversal = [];
+
+document.addEventListener('contextmenu', (e) => {
+  e.preventDefault();
+});
+
 
 setInterval(() => {
   gold += goldPerSec;
@@ -48,6 +55,11 @@ const lvlObj = {
   3: 25,
   4: 50,
   5: 100,
+  6: 250,
+  7: 500,
+  8: 1000,
+  9: 2500,
+  10: 'max',
 };
 
 const heroes = [
@@ -57,7 +69,7 @@ const heroes = [
     primaryAttribute: "Strength",
     rare: "legend",
     id: 1,
-    cards: 110,
+    cards: 20000,
     lvl: 0,
   },
   {
@@ -1793,7 +1805,7 @@ const openNpc = (id) => {
             <p class="cards-value">${npc.cards} / ${lvlObj[npc.lvl]}</p>
             <img src="images/cards.png" alt="" class="cards-img">
           </div>
-          <p>уровень: ${npc.lvl}/5</p>
+          <p>уровень: ${npc.lvl}/10</p>
           <div class='btn-update-lvl-npc-container'>
             <button onclick='updateLvl(${
               npc.id
@@ -1834,7 +1846,7 @@ const openNpc = (id) => {
 
 const updateLvl = (id) => {
   const hero = heroes.find((h) => h.id === id);
-  if (hero.cards >= lvlObj[hero.lvl]) {
+  if (hero.cards >= lvlObj[hero.lvl] && hero.lvl < 11) {
     hero.cards -= lvlObj[hero.lvl];
     hero.lvl++;
     let goldHero = 0;
@@ -2246,6 +2258,7 @@ function showStory(
   btn2Action = null,
   img
 ) {
+  
   const prev = document.querySelector(".story-container");
   if (prev) prev.remove();
 
@@ -2267,7 +2280,10 @@ function showStory(
 
   const container = el.querySelector(".story-container-message");
   const answers = el.querySelector(".story-container-answers");
-
+  
+    const audio = new Audio("audio/machine.mp3");
+    audio.volume = 0.3;
+    audio.play();
   let i = 0;
   function typeLetter() {
     if (i < message.length) {
@@ -2284,6 +2300,8 @@ function showStory(
     btn1.textContent = btn1Text;
     btn1.onclick = btn1Action;
     answers.appendChild(btn1);
+    audio.pause()
+    audio.currentTime = 0;
 
     if (btn2Text && btn2Action) {
       const btn2 = document.createElement("button");
@@ -2303,6 +2321,24 @@ function endAndRemove(code) {
   const el = document.querySelector(".story-container");
   if (el) el.remove();
 }
+
+function endAndRemoveDudka(code) {
+  currEnd = code;
+  const el = document.querySelector(".story-container");
+  if (el) el.remove();
+
+  const elDudka = document.createElement("div");
+  elDudka.className = "dudka-container";
+  elDudka.innerHTML = `
+        <img src="images/dudka.png" id="dudka-img">
+  `;
+
+  containerNode.appendChild(elDudka);
+  setTimeout(() => {
+    elDudka.remove()
+  }, 2900);
+}
+
 
 setTimeout(() => {
   const helpStory = () => showStory(
@@ -2620,7 +2656,7 @@ const bigLastStory = () => showStory(
                                     () => showStory(
                                       'только без танго, а то папа из-за пуза вообще ходить не сможет :)',
                                       'ахах, хорошо, если что — загляну, удачи!',
-                                      () => {endAndRemove(3);
+                                      () => {endAndRemoveDudka(3);
                                         goldPerSec += 100;
                                       },
                                       null,
@@ -3135,3 +3171,96 @@ const bigLastStory = () => showStory(
       break;
   }
 }, 3600000);
+
+
+
+
+settingsInfo.innerHTML += `
+<div  class='lb-container'>
+  <p class="lb-head">Таблица лидеров</p>
+  <div id="lbUsersContainer"></div>
+</div>
+`
+
+let lbUserScores = [
+  {
+    user: 'f1cus',
+    score: 1337
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+  {
+    user: 'f1cus',
+    score: 1337
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+  {
+    user: 'f1cus',
+    score: 1337
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+  {
+    user: 'f1cus',
+    score: 1337
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+  {
+    user: 'f1cus',
+    score: 1337
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+  {
+    user: 'f1cus',
+    score: 1337
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+  {
+    user: 'f1cus',
+    score: 1337
+  },
+  {
+    user: 'lina',
+    score: 228
+  },
+]
+
+// for (let i = 0; i < 15; i++) {
+//   if (i === 0) {
+//   document.getElementById('lbUsersContainer').innerHTML += `
+//   <div class="lb-user" style="color: gold"> <span class="lb-place">${i + 1}.</span> <span class="lb-name">${lbUserScores[i].user}:</span> <span class="lb-score">${lbUserScores[i].score}</span></div>
+//   `
+//   } else if (i === 1) {
+//   document.getElementById('lbUsersContainer').innerHTML += `
+//   <div class="lb-user" style="color: silver"> <span class="lb-place">${i + 1}.</span> <span class="lb-name">${lbUserScores[i].user}:</span> <span class="lb-score">${lbUserScores[i].score}</span></div>
+//   `
+//   }  else if (i === 2) {
+//   document.getElementById('lbUsersContainer').innerHTML += `
+//   <div class="lb-user" style="color: #b87333"> <span class="lb-place">${i + 1}.</span> <span class="lb-name">${lbUserScores[i].user}:</span> <span class="lb-score">${lbUserScores[i].score}</span></div>
+//   `
+//   } else {
+//   document.getElementById('lbUsersContainer').innerHTML += `
+//   <div class="lb-user"> <span class="lb-place">${i + 1}.</span> <span class="lb-name">${lbUserScores[i].user}:</span> <span class="lb-score">${lbUserScores[i].score}</span></div>
+//   `
+//   }
+// }
